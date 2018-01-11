@@ -1,0 +1,176 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: "pressStart";
+    box-sizing: border-box;
+    font-size: 14px;
+}
+@font-face {
+    font-family: "pressStart";
+    font-style: normal;
+    font-weight: 200;
+    src: url("../assets/font/PrStart.ttf");
+}
+body{
+    background-color: #CADC9F;
+}
+fieldset {
+    width: 600px;
+    height: 350px;
+    border: 5px solid #306230;
+}
+fieldset label{
+    margin-top: 3px;
+    display: flex;
+    justify-content: space-between;
+}
+fieldset label input{
+    margin-top: 3px;
+    border: 3px solid #306230;
+    background-color: #CADC9F;
+}
+form{
+    width: 600px;
+    height: 350px;
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+button{
+    border: 3px solid #306230;
+    background-color: #0f380f;
+    color: #9bbc0f;
+    padding: 20px;
+}
+a {
+    margin-top: 5px;
+    color: #0f380f;
+}
+a:visited {
+    margin-top: 5px;
+    color: #306230;
+}
+p{
+    margin-top: 20px;
+    text-align: justify;
+}
+/*
+ ----------------------
+*/
+#contenedor{
+    display: flex;
+    flex-flow: row nowrap;
+}
+#opcionesDeJuego {
+    display: flex;
+    flex-flow: column nowrap;
+    border: 5px solid #306230;
+    background-color: #CADC9F;
+    width: calc(100%/3);
+    height: 93vh;
+}
+h1{
+    align-self: center;
+    text-align: center;
+    font-size: 30px;
+}
+#opcionesDeJuego select{
+    width: 22%;
+    float:right;
+    margin-right: 8.1%;
+    border: 3px solid #306230;
+    background-color: #CADC9F;
+}
+#opcionesDeJuego input{
+    width: 22%;
+    float:right;
+    margin-right: 8%;
+    border: 3px solid #306230;
+    background-color: #CADC9F;
+}
+#opcionesDeJuego>label{
+    width: 100%;
+    margin-left: 2%;
+    font-weight: bolder;
+    margin-top: 1%;
+}
+#opcionesDeJuego>button{
+    width: 30%;
+    align-self:center; 
+}
+
+#recordsDeCuentas{
+    display: flex;
+    flex-flow: column nowrap;
+    border: 3px solid #306230;
+    background-color: #CADC9F;
+    width: calc(100%/3);
+}
+#recordsDeCuentas .tituloRecord{
+    display: flex;
+    flex-flow: row wrap;
+}
+#recordsDeCuentas .tituloRecord div{
+    width: calc(100%/3);
+    text-align: center;
+    font-weight: bolder;
+    font-size: 24px;
+}
+#recordsDeCuentas .record{
+    display: flex;
+    flex-flow: row nowrap;
+    margin-top: 2%;
+}
+#recordsDeCuentas .record div{
+    width: calc(100%/3);
+    text-align: center;
+    font-weight: lighter;
+    font-size: 20px;
+}
+#instrucciones{
+    display: flex;
+    flex-flow: column nowrap;
+    border: 3px solid #306230;
+    background-color: #CADC9F;
+    width: calc(100%/3);
+    padding: 1%;
+}
+#botonSalir{
+    width: 100vw;
+}
+/*
+*   Opciones y Récords
+*/
+
+@media screen and (max-width: 1200px){
+    fieldset {
+        width: 100vw;
+        height: 100vh;
+    }
+    fieldset label{
+        margin-top: 10px;
+    }
+    form{
+        width: 100vw;
+        height: 100vh;
+    }
+    #contenedor{
+        display: flex;
+        flex-flow: column nowrap;
+    }
+    #opcionesDeJuego {
+        width: 100%;
+    }
+    #opcionesDeJuego h1{
+        font-size: 26px;
+    }
+    #recordsDeCuentas{
+        width: 100%;
+    }
+    #instrucciones{
+        width: 100%;
+    }
+}

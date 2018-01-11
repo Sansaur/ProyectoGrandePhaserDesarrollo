@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script>
+            function crearNodo(tipo, texto, atributos, valores) {
+                var nodoTexto;
+                var nodoP = document.createElement(tipo);
+                if (texto) {
+                    nodoTexto = document.createTextNode(texto);
+                    nodoP.appendChild(nodoTexto);
+                }
+                for (var i in atributos) {
+                    nodoP.setAttribute(atributos[i], valores[i]);
+                }
+
+                return nodoP;
+            }
+            function compare(a, b) {
+                if (a.record < b.record)
+                    return -1;
+                if (a.record > b.record)
+                    return 1;
+                return 0;
+            }
+            function cargarCampos() {
+                var cuentaActual = JSON.parse(localStorage.getItem('CuentaActual'));
+                document.getElementById('handicap').value = cuentaActual.dificultad;
+                document.getElementById('MBI').value = cuentaActual.inicialMunicionBalas;
+                document.getElementById('MBM').value = cuentaActual.maximoMunicionBalas;
+                document.getElementById('MEI').value = cuentaActual.inicialMunicionExplosiva;
+                document.getElementById('MEM').value = cuentaActual.maximoMunicionExplosiva;
+                document.getElementById('MNI').value = cuentaActual.inicialMunicionEnergia;
+                document.getElementById('MNM').value = cuentaActual.maximoMunicionEnergia;
+                document.getElementById('skin').value = cuentaActual.skin;
+                document.getElementById('mapa').value = cuentaActual.mapa;
+
+                var todasCuentas = JSON.parse(localStorage.getItem('Cuentas'));
+                var tituloRecords = crearNodo("DIV", null, ["class"], ["tituloRecord"]);
+                tituloRecords.appendChild(crearNodo("DIV", "Nombre", ["class"], ["inforecord"]));
+                tituloRecords.appendChild(crearNodo("DIV", "Récord", ["class"], ["inforecord"]));
+                tituloRecords.appendChild(crearNodo("DIV", "Hándicap", ["class"], ["inforecord"]));
+                document.getElementById('recordsDeCuentas').appendChild(tituloRecords);
+                todasCuentas.sort(compare);
+                for (var item in todasCuentas) {
+                    var nuevoNodo = crearNodo("DIV", null, ["class"], ["record"]);
+                    nuevoNodo.appendChild(crearNodo("DIV", todasCuentas[item].nombre, ["class"], ["inforecord"]));
+                    nuevoNodo.appendChild(crearNodo("DIV", todasCuentas[item].record || "0", ["class"], ["inforecord"]));
+                    nuevoNodo.appendChild(crearNodo("DIV", todasCuentas[item].handicapRecord || "0", ["class"], ["inforecord"]));
+                    document.getElementById('recordsDeCuentas').appendChild(nuevoNodo);
+                    // todasCuentas[item].record + "" + todasCuentas[item].record + "" + todasCuentas[item].handicapRecord
+                }
+            }
+            function rellenarCuenta(cuentaActual) {
+                var MI = parseInt(document.getElementById('MBI').value);
+                var MM = parseInt(document.getElementById('MBM').value);
+                if (MM > 999) {
+                    MM = 999;
+                }
+                if (MI > MM) {
+                    MI = parseInt(MM);
+                }
+                cuentaActual.inicialMunicionBalas = (MI < 0) ? 0 : MI;
+                cuentaActual.maximoMunicionBalas = (MM < 0) ? 0 : MM;
+
+                MI = parseInt(document.getElementById('MEI').value);
+                MM = parseInt(document.getElementById('MEM').value);
+                if (MM > 999) {
+                    MM = 999;
+                }
+                if (MI > MM) {
+                    MI = MM;
+                }
+                cuentaActual.inicialMunicionExplosiva = (MI < 0) ? 0 : MI;
+                cuentaActual.maximoMunicionExplosiva = (MM < 0) ? 0 : MM;
+
+                MI = parseInt(document.getElementById('MNI').value);
+                MM = parseInt(document.getElementById('MNM').value);
+                if (MM > 999) {
+                    MM = 999;
+                }
+                if (MI > MM) {
+                    MI = MM;
+                }
+                cuentaActual.inicialMunicionEnergia = (MI < 0) ? 0 : MI;
+                cuentaActual.maximoMunicionEnergia = (MM < 0) ? 0 : MM;
+
+                cuentaActual.mapa = document.getElementById('mapa').value;
+                cuentaActual.skin = document.getElementById('skin').value;
+                cuentaActual.dificultad = parseInt(document.getElementById('handicap').value);
+
+                return cuentaActual;
+            }
+            function finalizarFormulario() {
+                var cuentaActual = JSON.parse(localStorage.getItem('CuentaActual'));
+                cuentaActual = rellenarCuenta(cuentaActual);
+
+
+                // Guardamos esto aquí y en la lista de cuentas de una.
+                localStorage.setItem('CuentaActual', JSON.stringify(cuentaActual));
+                var todasCuentas = JSON.parse(localStorage.getItem('Cuentas'));
+                for (var item in todasCuentas) {
+                    if (todasCuentas[item].name === cuentaActual.name) {
+                        todasCuentas[item] = rellenarCuenta(todasCuentas[item]);
+                    }
+                }
+                localStorage.setItem('Cuentas', JSON.stringify(todasCuentas));
+                location.replace('juegoPhaser.html');
+            }
+
+            function logout() {
+                localStorage.setItem('CuentaActual', null);
+                location.replace('login.html');
+            }
+
+        </script>
+        <link rel="stylesheet" href="css/form.css" />
+    </head>
+    <body onload="cargarCampos()">
+        <div id="contenedor">
+
+            <div id="opcionesDeJuego">
+                <h1>Opciones</h1>
+                <label>Skin
+                    <select id="skin">
+                        <option value="Security">Security</option>
+                    </select>
+                </label>
+                <label>Handicap<input type="number" id="handicap"></label>
+                <label>Municion balística inicial<input type="number" min="0" max="999" id="MBI"></label>
+                <label>Municion balística máxima<input type="number" min="0" max="999" id="MBM"></label>
+                <label>Municion explosiva inicial<input type="number" min="0" max="999" id="MEI"></label>
+                <label>Municion explosiva máxima<input type="number" min="0" max="999" id="MEM"></label>
+                <label>Municion energía inicial<input type="number" min="0" max="999" id="MNI"></label>
+                <label>Municion energía máxima<input type="number" min="0" max="999" id="MNM"></label>
+                <label>Mapa
+                    <select id="mapa">
+                        <option value="LaX">La X</option>
+                        <option value="Jungla">Jungla</option>
+                        <option value="Factorio">Factorio</option>
+                        <option value="Chino">Chino</option>
+                    </select>
+                </label>
+                <p id="informacionPersonaje"></p>
+                <button onclick="finalizarFormulario()" type="button">¡INICIAR!</button>
+            </div>
+            <div id="recordsDeCuentas">
+                <h1 style="text-align:center;margin-bottom:10px">Puntuaciones</h1>
+            </div>
+            <div id="instrucciones">
+                <h1 style="text-align:center">Instrucciones de juego</h1>
+                <p>
+                    Pulsa las teclas de la 1 a la 9 para cambiar de arma
+                </p>
+                <p>
+                    Tecla X = Disparar
+                </p>
+                <p>
+                    Tecla Shift izquierdo = Esquivar
+                </p>
+                <p>
+                    Tecla C = Mochila cohete vertical
+                </p>
+                <p>
+                    Flechas izquierda y derecha = Moverse a esa dirección
+                </p>
+                <p>
+                    Flecha arriba = Saltar
+                </p>
+            </div>
+        </div>
+        <button onclick="logout()" id="botonSalir">Volver al login</button>
+    </body>
+</html>

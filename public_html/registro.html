@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!--
+
+Claves a usar:
+    - Cuentas (Se añaden en registro)
+    - CuentaActual (Se elige en el login)
+
+    La cuenta actual cargará las preferencias del jugador en la variable PlayerAccount del juego de Phaser
+
+    No se pueden tener dos cuentas con el mismo nombre de usuario
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="js/Formularios/Comprobaciones.js"></script>
+        <link rel="stylesheet" href="css/form.css" />
+    </head>
+    <body onload="cargarListeners()">
+        <form>
+            <fieldset>
+                <legend>Registro</legend>
+                <label>Nuevo usuario<input type="text" id="name" pattern="^[A-Za-z]+$"></label><br>
+                <label>Nueva contraseña<input type="password" id="pass"  pattern="^[A-Za-z]+$"></label><br>
+                <button onclick="nuevaCuenta()" type="button" id="botonSubmit">Registrar nueva cuenta</button><br>
+                <a href="login.html">Volver a la página de login</a><br>
+                <p id="cajitaInfo"></p>
+            </fieldset>
+        </form>
+    </body>
+</html>

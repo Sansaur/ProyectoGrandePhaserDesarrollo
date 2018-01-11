@@ -1,0 +1,2 @@
+1) Vamos a quitar lo de 3 fases diferentes por nivel, demasiado locura, la dificultad se elegirá en el "lobby" del juego y formará parte de la CUENTA
+    al entrar en una partida, la CUENTA enviará la dificultad a la generación de enemigos, que se aumentará el daño que causan en: 0, 50% y 100% dependiendo de la dificultad.
