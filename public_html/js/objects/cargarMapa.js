@@ -20,6 +20,18 @@ function crearPlataforma(x, y, width, height, inverso) {
     if (inverso) {
         nuevoSuave.scale.y = -1;
     }
+    return nuevoSuelo;
+}
+function crearPared(x, y, width, height, inverso, sprite) {
+    var nuevaPared = game.add.tileSprite(x, y - 32, width, height || 32, sprite);
+    platforms.add(nuevaPared);
+    nuevaPared.body.collideWorldBounds = true;
+    nuevaPared.body.immovable = true;
+    nuevaPared.body.allowGravity = false;
+    if (inverso) {
+        nuevaPared.scale.y = -1;
+    }
+    return nuevaPared;
 }
 
 function cargarMapa(mapa) {
@@ -78,11 +90,12 @@ function cargarMapa(mapa) {
             crearPlataforma(300, game.world.height - 1080, (game.world.width - 800) / 2, 32);
             crearPlataforma(800, game.world.height - 1080, (game.world.width - 800) / 2, 32);
 
+            portales.add(new SpawnEnemigo(game, game.world.width - 75 - 32, game.world.height - 510 -32, 75, 32));
+            portales.add(new SpawnEnemigo(game, 600 + (game.world.width - 1400) / 4, game.world.height - 600 - 32));
             portales.add(new SpawnEnemigo(game, 600 + (game.world.width - 1400) / 4, game.world.height - 600 - 32));
             portales.add(new SpawnEnemigo(game, 800 + (game.world.width - 1400) / 4, game.world.height - 600 - 32));
             portales.add(new SpawnEnemigo(game, 600 + (game.world.width - 1400) / 4, game.world.height - 720 - 32));
             portales.add(new SpawnEnemigo(game, 800 + (game.world.width - 1400) / 4, game.world.height - 720 - 32));
-
             portales.add(new SpawnEnemigo(game, 300 + (game.world.width - 800) / 4, game.world.height - 1080 - 32));
             portales.add(new SpawnEnemigo(game, 800 + (game.world.width - 800) / 4, game.world.height - 1080 - 32));
 
@@ -91,7 +104,7 @@ function cargarMapa(mapa) {
             break;
         case "Factorio":
             // Base total
-            crearPlataforma(32, game.world.height - 10, game.world.width, 32);
+            crearPlataforma(32, game.world.height, game.world.width, 32);
 
             // Cuatro ascensores
             nuevoSuelo = new Ascensor(game, 375, game.world.height - 250, 200, 32);
@@ -102,29 +115,29 @@ function cargarMapa(mapa) {
             platforms.add(nuevoSuelo);
 
             // cinco pisos
-            crearPlataforma(200 + 32, game.world.height - 150, 150, 32);
-            crearPlataforma(200 + 32, game.world.height - 300, 150, 32);
-            crearPlataforma(200 + 32, game.world.height - 450, 150, 32);
-            crearPlataforma(200 + 32, game.world.height - 600, 150, 32);
-            crearPlataforma(200 + 32, game.world.height - 750, 150, 32);
+            crearPlataforma(200 + 32, game.world.height - 130, 150, 32);
+            crearPlataforma(200 + 32, game.world.height - 280, 150, 32);
+            crearPlataforma(200 + 32, game.world.height - 430, 150, 32);
+            crearPlataforma(200 + 32, game.world.height - 580, 150, 32);
+            crearPlataforma(200 + 32, game.world.height - 730, 150, 32);
 
-            crearPlataforma(550 + 32, game.world.height - 150, 150, 32);
-            crearPlataforma(550 + 32, game.world.height - 300, 150, 32);
-            crearPlataforma(550 + 32, game.world.height - 450, 150, 32);
-            crearPlataforma(550 + 32, game.world.height - 600, 150, 32);
-            crearPlataforma(550 + 32, game.world.height - 750, 150, 32);
+            crearPlataforma(550 + 32, game.world.height - 130, 150, 32);
+            crearPlataforma(550 + 32, game.world.height - 280, 150, 32);
+            crearPlataforma(550 + 32, game.world.height - 430, 150, 32);
+            crearPlataforma(550 + 32, game.world.height - 580, 150, 32);
+            crearPlataforma(550 + 32, game.world.height - 730, 150, 32);
 
-            crearPlataforma(900 + 32, game.world.height - 150, 150, 32);
-            crearPlataforma(900 + 32, game.world.height - 300, 150, 32);
-            crearPlataforma(900 + 32, game.world.height - 450, 150, 32);
-            crearPlataforma(900 + 32, game.world.height - 600, 150, 32);
-            crearPlataforma(900 + 32, game.world.height - 750, 150, 32);
+            crearPlataforma(900 + 32, game.world.height - 130, 150, 32);
+            crearPlataforma(900 + 32, game.world.height - 280, 150, 32);
+            crearPlataforma(900 + 32, game.world.height - 430, 150, 32);
+            crearPlataforma(900 + 32, game.world.height - 580, 150, 32);
+            crearPlataforma(900 + 32, game.world.height - 730, 150, 32);
 
-            crearPlataforma(1250 + 32, game.world.height - 150, 150, 32);
-            crearPlataforma(1250 + 32, game.world.height - 300, 150, 32);
-            crearPlataforma(1250 + 32, game.world.height - 450, 150, 32);
-            crearPlataforma(1250 + 32, game.world.height - 600, 150, 32);
-            crearPlataforma(1250 + 32, game.world.height - 750, 150, 32);
+            crearPlataforma(1250 + 32, game.world.height - 130, 150, 32);
+            crearPlataforma(1250 + 32, game.world.height - 280, 150, 32);
+            crearPlataforma(1250 + 32, game.world.height - 430, 150, 32);
+            crearPlataforma(1250 + 32, game.world.height - 580, 150, 32);
+            crearPlataforma(1250 + 32, game.world.height - 730, 150, 32);
 
             // Plataformas horizontales
             nuevoSuelo = new PlataformaHorizontal(game, 50, game.world.height - 900, 200, 32);

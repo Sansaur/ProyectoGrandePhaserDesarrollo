@@ -5,16 +5,19 @@
         <group name="Group 20170517-04:23:43">
             <file>file:/C:/Users/Sansaur/Documents/NetBeansProjects/ProyectoGrandePhaser/public_html/js/objects/Armas.js</file>
             <file>file:/C:/Users/Sansaur/Documents/NetBeansProjects/ProyectoGrandePhaser/public_html/js/Player/Player.js</file>
+            <file>file:/C:/Users/Sansaur/Documents/NetBeansProjects/ProyectoGrandePhaser/public_html/js/Enemigos/Pistolero.js</file>
             <file>file:/C:/Users/Sansaur/Documents/NetBeansProjects/ProyectoGrandePhaser/public_html/js/Player/cargarControlesJugador.js</file>
             <file>file:/C:/Users/Sansaur/Documents/NetBeansProjects/ProyectoGrandePhaser/public_html/js/objects/PlayerAccount.js</file>
             <file>file:/C:/Users/Sansaur/Documents/NetBeansProjects/ProyectoGrandePhaser/public_html/index.html</file>
             <file>file:/C:/Users/Sansaur/Documents/NetBeansProjects/ProyectoGrandePhaser/public_html/js/objects/PlataformasEspeciales.js</file>
+            <file>file:/C:/Users/Sansaur/Documents/NetBeansProjects/ProyectoGrandePhaser/public_html/js/Enemigos/Lanzacohetes.js</file>
             <file>file:/C:/Users/Sansaur/Documents/NetBeansProjects/ProyectoGrandePhaser/public_html/js/Enemigos/Goon.js</file>
+            <file>file:/C:/Users/Sansaur/Documents/NetBeansProjects/ProyectoGrandePhaser/public_html/js/Enemigos/SpawnEnemigo.js</file>
             <file>file:/C:/Users/Sansaur/Documents/NetBeansProjects/ProyectoGrandePhaser/public_html/js/carga.js</file>
+            <file>file:/C:/Users/Sansaur/Documents/NetBeansProjects/ProyectoGrandePhaser/public_html/js/Enemigos/Bosses/common.js</file>
             <file>file:/C:/Users/Sansaur/Documents/NetBeansProjects/ProyectoGrandePhaser/public_html/js/objects/Enemy.js</file>
-            <file>file:/C:/Users/Sansaur/Documents/NetBeansProjects/ProyectoGrandePhaser/public_html/js/Enemigos/Soldado.js</file>
             <file>file:/C:/Users/Sansaur/Documents/NetBeansProjects/ProyectoGrandePhaser/public_html/Apuntes</file>
-            <file>file:/C:/Users/Sansaur/Documents/NetBeansProjects/ProyectoGrandePhaser/public_html/js/objects/Municion.js</file>
+            <file>file:/C:/Users/Sansaur/Documents/NetBeansProjects/ProyectoGrandePhaser/public_html/js/Player/Construcciones.js</file>
             <file>file:/C:/Users/Sansaur/Documents/NetBeansProjects/ProyectoGrandePhaser/public_html/js/objects/cargarMapa.js</file>
         </group>
     </open-files>

@@ -13,7 +13,15 @@
  function animName(obj){ return obj.animations.currentAnim.name;}
  */
 function loadPlayer() {
-    player = game.add.sprite(220, 0, 'player');
+    game.time.events.add(2000, function () {
+        SFX_INTRO.play();
+        player.revive();
+        puedeControlarJugador = true;
+    })
+    game.time.events.add(40, function () {
+        player.kill();
+    })
+    player = game.add.sprite(game.world.width / 2, game.world.height - 32, 'player');
     player.anchor.setTo(0.5, 0.5);
     game.physics.enable(player, Phaser.Physics.ARCADE);
     player.body.height = 32;
@@ -26,8 +34,8 @@ function loadPlayer() {
     // Our two animations, walking left and right.
     player.animations.add('mover', [5, 6, 7, 8], 10, true);
     player.animations.add('disparar', [9, 10, 11, 12], 10, true);
-    player.animations.add('saltar', [13,14,15,16], 10, true);
-    player.animations.add('esquivar', [17,18,19,20], 10, true);
+    player.animations.add('saltar', [13, 14, 15, 16], 10, true);
+    player.animations.add('esquivar', [17, 18, 19, 20], 10, true);
     //player.animations.add('right', [5, 6, 7, 8], 10, true);
     player.animations.add('quieto', [0, 1, 2, 3, 4], 10, true);
 
@@ -82,9 +90,9 @@ function loadPlayer() {
 
 
     cargarControlesJugador();
-    player.body.width = 16;
-    player.body.height = 32;
+    player.body.setSize(player.body.width / 2, player.body.height, player.body.width / 4, 0);
 
+    puedeControlarJugador = false;
 
 }
 function perderVidaBala(player, bala) {
@@ -106,7 +114,7 @@ function controlarChoqueEnemigo(player, enemy) {
             turbo = 250;
         }
         player.canGetHit = 0;
-        game.time.events.add(800, function () {
+        game.time.events.add(1000, function () {
             turbo = 0;
             player.canGetHit = 1;
         }, this);
@@ -125,12 +133,12 @@ function perderVida(player, enemy) {
         actualizarVida();
         puedeControlarJugador = false;
         if (player.body.x < enemy.body.x) {
-            game.add.tween(player).to( { x: player.x+100 }, 200, "Linear", true);
+            game.add.tween(player).to({x: player.x + 100}, 200, "Linear", true);
         } else {
-            game.add.tween(player).to( { x: player.x-100 }, 200, "Linear", true);
+            game.add.tween(player).to({x: player.x - 100}, 200, "Linear", true);
         }
         player.canGetHit = 0;
-        game.time.events.add(200, finAnimacion, this);
+        game.time.events.add(300, finAnimacion, this);
         game.time.events.add(1000, finInvulnerabilidad, this);
     }
 }
@@ -184,7 +192,10 @@ function actualizarVida() {
                 portales.forEach(function (item) {
                     item.tint = 0x444444;
                 });
-                ammoBoxes.forEach(function (item){
+                ammoBoxes.forEach(function (item) {
+                    item.tint = 0x444444;
+                });
+                suaves.forEach(function (item) {
                     item.tint = 0x444444;
                 });
                 var textolino = this.game.add.text(game.camera.x, game.camera.y + 200, "Game Over man, Game Over", {font: "32px pressStart", fill: "#ffffff", stroke: "black", strokeThickness: 2});
@@ -199,6 +210,7 @@ function actualizarVida() {
                     if (cuentaActual.record < puntos) {
                         cuentaActual.record = puntos;
                         cuentaActual.handicapRecord = PlayerAccount.dificultad;
+                        cuentaActual.personajeRecord = PlayerAccount.skin;
                     }
                     localStorage.setItem('CuentaActual', JSON.stringify(cuentaActual));
                     var CuentasSacadasLocalStorage = JSON.parse(localStorage.getItem('Cuentas'));

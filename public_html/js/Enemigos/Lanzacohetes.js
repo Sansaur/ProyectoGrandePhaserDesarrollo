@@ -67,6 +67,7 @@ Lanzacohetes = function (game, x, y, damage) {
     this.body.bounce.x = 1;
     this.body.collideWorldBounds = false;
     this.body.velocity.x = 80;
+    this.isBoss = false;
     //this.anchor.x = 0.5;
     //this.anchor.y = 0.5;
     // damageDealt es para saber cuanto daño hacen.
@@ -80,6 +81,9 @@ Lanzacohetes = function (game, x, y, damage) {
 Lanzacohetes.prototype = Object.create(Phaser.Sprite.prototype);
 Lanzacohetes.prototype.constructor = Lanzacohetes;
 Lanzacohetes.prototype.dropearMuerte = function () {
+    if(!this){
+        return;
+    }
     puntos += this.damageDealt + 40 + PlayerAccount.dificultad;
     var nuevaMunicion = new Municion(game, this.body.x, this.body.y, "explosiveAmmo", 3, 2);
     if (game.rnd.integerInRange(1, 100) > 80) {
@@ -87,6 +91,7 @@ Lanzacohetes.prototype.dropearMuerte = function () {
     } else if (game.rnd.integerInRange(1, 100) > 80) {
         var nuevaMunicion = new Municion(game, this.body.x - 10, this.body.y, "healthkit", 5, 4);
     }
+    this.kill();
 };
 Lanzacohetes.prototype.update = function () {
     // MAXIMO DE VELOCIDAD PARA ESTE ENEMIGO
@@ -107,8 +112,8 @@ Lanzacohetes.prototype.update = function () {
 
         // Persiguen al jugador
         if (player.body.x > soldado.body.x) {
-            if (Math.abs(player.body.x - soldado.body.x) < 245 && Math.abs(player.body.y - soldado.body.y) < 185 && (player.body.y < soldado.body.y)) {
-                soldado.body.velocity.x = 0;
+            if (Math.abs(player.body.x - soldado.body.x) < 245 && Math.abs(player.body.y - soldado.body.y) < 185) {
+                soldado.body.velocity.x = 3;
                 if (!soldado.eventoDisparo) {
                     soldado.eventoDisparo = game.time.events.add(1300, function () {
                         soldado.eventoDisparo = null;
@@ -123,8 +128,8 @@ Lanzacohetes.prototype.update = function () {
                 soldado.body.velocity.x = 40 + soldado.turboRandom;
             }
         } else {
-            if (Math.abs(player.body.x - soldado.body.x) < 245 && Math.abs(player.body.y - soldado.body.y) < 185 && (player.body.y < soldado.body.y)) {
-                soldado.body.velocity.x = 0;
+            if (Math.abs(player.body.x - soldado.body.x) < 245 && Math.abs(player.body.y - soldado.body.y) < 185) {
+                soldado.body.velocity.x = 3;
                 if (!soldado.eventoDisparo) {
                     soldado.eventoDisparo = game.time.events.add(1300, function () {
                         soldado.eventoDisparo = null;
@@ -135,7 +140,7 @@ Lanzacohetes.prototype.update = function () {
                     }, this);
                 }
             } else {
-                soldado.body.velocity.x = -40 + soldado.turboRandom;
+                soldado.body.velocity.x = -40 - soldado.turboRandom;
             }
         }
         soldado.animations.play('moverse');

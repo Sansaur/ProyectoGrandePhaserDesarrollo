@@ -17,7 +17,11 @@ EnemyBullet = function (game, x, y, damage, velocidad, sprite, direccion, spread
     this.damageDealt = damage || 1;
     this.tiempoMuerte = game.time.now + tiempoVida;
     this.rotation = game.physics.arcade.angleBetween(this, player);
-    enemyBullets.add(this);
+    enemyBullets.add(this);   
+    this.onKilled = function () {
+        this.destroy();
+    }
+
 };
 EnemyBullet.prototype = Object.create(Phaser.Sprite.prototype);
 EnemyBullet.prototype.constructor = EnemyBullet;
@@ -25,10 +29,17 @@ EnemyBullet.prototype.update = function () {
     if (this.rotation > 0) {
         this.rotation = 0;
     }
-    if (this.rotation < -1) {
-        this.rotation = -1;
+    // De 0 hasta -3 (-1.6)
+    // 0 = 0
+    // -3 = 0
+    // -1.6 = 1000
+    
+    var velocidadY;
+    velocidadY = 250 * this.rotation;
+    if(this.rotation < -1.6){
+        velocidadY = (250 * this.rotation)/2;
     }
-    this.body.velocity.y = this.rotation * 300;
+    this.body.velocity.y = velocidadY;
     if (game.time.now > this.tiempoMuerte) {
         this.kill();
     }
@@ -57,18 +68,23 @@ Soldado = function (game, x, y, damage) {
     this.health = 2 + PlayerAccount.dificultad;
     this.turboRandom = game.rnd.integerInRange(10, 30);
     this.eventoDisparo;
+    this.isBoss = false;
     this.events.onKilled.add(function (enemigo) {
     }, this);
 };
 Soldado.prototype = Object.create(Phaser.Sprite.prototype);
 Soldado.prototype.constructor = Soldado;
 Soldado.prototype.dropearMuerte = function () {
+    if(!this){
+        return;
+    }
     puntos += this.damageDealt + 20 + PlayerAccount.dificultad;
     if (game.rnd.integerInRange(1, 100) > 50) {
         var nuevaMunicion = new Municion(game, this.body.x, this.body.y, "bulletsAmmo", 10, 1);
     } else if (game.rnd.integerInRange(1, 100) > 50) {
         var nuevaMunicion = new Municion(game, this.body.x, this.body.y, "healthkit", 5, 4);
-    }
+    }    
+    this.kill();
 }
 Soldado.prototype.update = function () {
     // MAXIMO DE VELOCIDAD PARA ESTE ENEMIGO
@@ -89,13 +105,13 @@ Soldado.prototype.update = function () {
 
         // Persiguen al jugador
         if (player.body.x > soldado.body.x) {
-            if (Math.abs(player.body.x - soldado.body.x) < 245 && Math.abs(player.body.y - soldado.body.y) < 200) {
-                soldado.body.velocity.x = 0;
+            if (Math.abs(player.body.x - soldado.body.x) < 245 && Math.abs(player.body.y - soldado.body.y) < 80) {
+                soldado.body.velocity.x = 15;
                 if (!soldado.eventoDisparo) {
                     soldado.eventoDisparo = game.time.events.add(900, function () {
                         soldado.eventoDisparo = null;
                         if (soldado.alive) {
-                            for (var i = 0; i < 4; i++) {
+                            for (var i = 0; i < 3; i++) {
                                 game.time.events.add(i * 100, function () {
                                     SFX_ENEMYSHOT.play();
                                     var balaEnemiga = new EnemyBullet(game, soldado.body.x, soldado.body.y + soldado.body.height / 2, soldado.damageDealt, 350, "enemyBullet", 1, 0, 0, 800, this);
@@ -108,13 +124,13 @@ Soldado.prototype.update = function () {
                 soldado.body.velocity.x = 60 + soldado.turboRandom;
             }
         } else {
-            if (Math.abs(player.body.x - soldado.body.x) < 245 && Math.abs(player.body.y - soldado.body.y) < 200) {
-                soldado.body.velocity.x = 0;
+            if (Math.abs(player.body.x - soldado.body.x) < 245 && Math.abs(player.body.y - soldado.body.y) < 80) {
+                soldado.body.velocity.x = -15;
                 if (!soldado.eventoDisparo) {
                     soldado.eventoDisparo = game.time.events.add(900, function () {
                         soldado.eventoDisparo = null;
                         if (soldado.alive) {
-                            for (var i = 0; i < 4; i++) {
+                            for (var i = 0; i < 3; i++) {
                                 game.time.events.add(i * 100, function () {
                                     SFX_ENEMYSHOT.play();
                                     var balaEnemiga = new EnemyBullet(game, soldado.body.x, soldado.body.y + soldado.body.height / 2, soldado.damageDealt, 350, "enemyBullet", -1, 0, 0, 800, this);
@@ -124,11 +140,11 @@ Soldado.prototype.update = function () {
                     }, this);
                 }
             } else {
-                soldado.body.velocity.x = -60 + soldado.turboRandom;
+                soldado.body.velocity.x = -60 - soldado.turboRandom;
             }
         }
         soldado.animations.play('moverse');
-        if (soldado.body.velocity.x > 0) {
+        if (soldado.body.velocity.x >= 0) {
             if (soldado.scale.x < 0) {
                 soldado.scale.x *= -1;
             }

@@ -45,6 +45,7 @@ Pistolero = function (game, x, y, damage) {
     this.body.bounce.x = 1;
     this.body.collideWorldBounds = false;
     this.body.velocity.x = 80;
+    this.isBoss = false;
     //this.anchor.x = 0.5;
     //this.anchor.y = 0.5;
     // damageDealt es para saber cuanto daño hacen.
@@ -58,8 +59,12 @@ Pistolero = function (game, x, y, damage) {
 Pistolero.prototype = Object.create(Phaser.Sprite.prototype);
 Pistolero.prototype.constructor = Pistolero;
 Pistolero.prototype.dropearMuerte = function () {
+    if (!this) {
+        return;
+    }
     puntos += this.damageDealt + 40 + PlayerAccount.dificultad;
     var nuevaMunicion = new Municion(game, this.body.x, this.body.y, "bulletsAmmo", 10, 1);
+    this.kill();
 }
 Pistolero.prototype.update = function () {
     // MAXIMO DE VELOCIDAD PARA ESTE ENEMIGO

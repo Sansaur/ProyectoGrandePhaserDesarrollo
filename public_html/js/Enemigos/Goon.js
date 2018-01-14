@@ -15,6 +15,7 @@ Slime = function (game, x, y, damage) {
     this.body.bounce.x = 1;
     this.body.collideWorldBounds = false;
     this.body.velocity.x = 80;
+    this.isBoss = false;
     //this.anchor.x = 0.5;
     //this.anchor.y = 0.5;
     // damageDealt es para saber cuanto daño hacen.
@@ -28,12 +29,16 @@ Slime = function (game, x, y, damage) {
 Slime.prototype = Object.create(Phaser.Sprite.prototype);
 Slime.prototype.constructor = Slime;
 Slime.prototype.dropearMuerte = function () {
+    if(!this){
+        return;
+    }
     puntos += this.damageDealt + 10 + PlayerAccount.dificultad;
     if (game.rnd.integerInRange(1, 100) > 50) {
         var nuevaMunicion = new Municion(game, this.body.x, this.body.y, "bulletsAmmo", 10, 1);
     } else if (game.rnd.integerInRange(1, 100) > 50) {
         var nuevaMunicion = new Municion(game, this.body.x, this.body.y, "healthkit", 5, 4);
     }
+    this.kill();
 }
 Slime.prototype.update = function () {
     // MAXIMO DE VELOCIDAD PARA ESTE ENEMIGO

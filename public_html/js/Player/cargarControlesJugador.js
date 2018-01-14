@@ -100,7 +100,7 @@ function movimientoBasico() {
     if (puedeControlarJugador) {
         // Atravesar plataformas si mantiene abajo
         if (FLECHAS.down.isDown) {
-            if(puedeAtravesar){
+            if(puedeAtravesar && player.body.touching.down){
                 player.body.y += 15;
                 puedeAtravesar = false;
             }
@@ -198,15 +198,39 @@ function finEsquivar() {
 }
 
 var loopCohete;
+var copia;
+
 function habilidadEspecial() {
     switch (PlayerAccount.skin) {
         case "Security":
+            SFX_MOCHILACOHETE.play();
             loopCohete = game.time.events.loop(1, function () {
                 player.body.velocity.y = -500;
                 playerEfectoCohete.emitParticle();
             }, this);
             game.time.events.add(300, finCohete, this);
             break;
+        case "TimeTrooper":
+            if(copia){
+                player.body.x = copia.x;
+                player.body.y = copia.y;
+                copia.kill();
+                copia = null;
+                SFX_WOOSHI.play();
+            } else {
+                copia = game.add.sprite(player.body.x, player.body.y, 'player');
+                copia.tint = 0x666666;
+                copia.alpha = 0.7;
+                copia.currentFrame = player.currentFrame;
+                SFX_WOOSH.play();
+            }
+            break;
+        case "Engineer":
+            // Se ve en "Construcciones.js"
+            SFX_TALADRO.play();
+            construir();
+            break;
+            
     }
 
 

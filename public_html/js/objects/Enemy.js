@@ -22,6 +22,7 @@ function preloadEnemigos() {
     game.load.spritesheet('graviton', 'assets/Graviton.png', 32, 32);
     game.load.spritesheet('caballero', 'assets/Caballero.png', 32, 32);
     game.load.spritesheet('portal', 'assets/Portal.png', 32, 32);
+    game.load.spritesheet('espiritu', 'assets/img/espiritu.png', 32, 32);
 }
 function cargaEnemigos(GlobalGameObject) {
     //  Un Tweeen es una función que permite alterar una o varias propiedades de un objeto sobre el tiempo. Este lo que hace es hacer que los alien

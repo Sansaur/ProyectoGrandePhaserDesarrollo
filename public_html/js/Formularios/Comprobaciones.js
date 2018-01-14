@@ -8,13 +8,16 @@ var CuentaNueva = {
     mapa: "Factorio",
     record: 0,
     handicapRecord: 0,
+    personajeRecord: "Security",
+    tiempoParaElBoss: 300,
+    hayBoss: true,
 
-    inicialMunicionBalas: 200,
-    inicialMunicionExplosiva: 5,
+    inicialMunicionBalas: 300,
+    inicialMunicionExplosiva: 25,
     inicialMunicionEnergia: 25,
 
-    maximoMunicionBalas: 300,
-    maximoMunicionExplosiva: 50,
+    maximoMunicionBalas: 500,
+    maximoMunicionExplosiva: 100,
     maximoMunicionEnergia: 100,
     guardar: function () {
         var todasCuentas = JSON.parse(localStorage.getItem('Cuentas'));

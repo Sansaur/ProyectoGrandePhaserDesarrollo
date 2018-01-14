@@ -20,6 +20,9 @@ var PlayerAccount = {
     
     maximoMunicionBalas: datosCuenta.maximoMunicionBalas,
     maximoMunicionExplosiva: datosCuenta.maximoMunicionExplosiva,
-    maximoMunicionEnergia: datosCuenta.maximoMunicionEnergia
+    maximoMunicionEnergia: datosCuenta.maximoMunicionEnergia,
+    
+    hayBoss: datosCuenta.hayBoss,
+    tiempoParaElBoss: datosCuenta.tiempoParaElBoss //Esto va en segundos
 };
 

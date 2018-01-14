@@ -69,7 +69,7 @@ p{
     flex-flow: column nowrap;
     border: 5px solid #306230;
     background-color: #CADC9F;
-    width: calc(100%/3);
+    width: 40vw;
     height: 93vh;
 }
 h1{
@@ -78,14 +78,14 @@ h1{
     font-size: 30px;
 }
 #opcionesDeJuego select{
-    width: 22%;
+    width: 24%;
     float:right;
     margin-right: 8.1%;
     border: 3px solid #306230;
     background-color: #CADC9F;
 }
 #opcionesDeJuego input{
-    width: 22%;
+    width: 24%;
     float:right;
     margin-right: 8%;
     border: 3px solid #306230;
@@ -112,23 +112,26 @@ h1{
 #recordsDeCuentas .tituloRecord{
     display: flex;
     flex-flow: row wrap;
+    justify-content: space-around;
 }
 #recordsDeCuentas .tituloRecord div{
-    width: calc(100%/3);
+    width: calc(100%/4);
     text-align: center;
     font-weight: bolder;
-    font-size: 24px;
+    font-size: 18px;
 }
 #recordsDeCuentas .record{
     display: flex;
+    text-align: center;
     flex-flow: row nowrap;
-    margin-top: 2%;
+    justify-content: space-around;
+    margin-top: 1%;
 }
 #recordsDeCuentas .record div{
-    width: calc(100%/3);
+    width: calc(100%/4);
     text-align: center;
     font-weight: lighter;
-    font-size: 20px;
+    font-size: 14px;
 }
 #instrucciones{
     display: flex;

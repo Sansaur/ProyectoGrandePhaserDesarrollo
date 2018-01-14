@@ -5,11 +5,12 @@ var canvasHeight = 600;
 // Esta variable es muy importante pasarla y usarla.
 // "game" es GLOBAL
 // ANTES ERA Phaser.AUTO
-var game = new Phaser.Game(canvasWidth, canvasHeight, Phaser.CANVAS, 'juego', {preload: preload, create: create, update: update, render: render, resize: resize});
+var game = new Phaser.Game(canvasWidth, canvasHeight, Phaser.AUTO, 'juego', {preload: preload, create: create, update: update});
 
 // Diferntes tipos de plataformas
 var platforms;
 var suaves;
+var paredes;
 
 var player;
 
@@ -78,6 +79,9 @@ function loadAssets() {
     game.load.audio('Jungla', 'assets/musica/Jungla.ogg');
     game.load.audio('Chino', 'assets/musica/Chino.ogg');
 
+    game.load.audio('SlimeBoss', 'assets/musica/Slime.ogg');
+    game.load.audio('NinjaBoss', 'assets/musica/Ninja.ogg');
+
     // SFX
     game.load.audio('silenciado', 'assets/sonido/silenciado.wav');
     game.load.audio('escopeta', 'assets/sonido/escopeta.wav');
@@ -89,15 +93,32 @@ function loadAssets() {
     game.load.audio('equipar', 'assets/sonido/equipar.wav');
     game.load.audio('swish', 'assets/sonido/swish.wav');
     game.load.audio('static', 'assets/sonido/static.ogg');
+    game.load.audio('beepbeep', 'assets/sonido/beepbeep.ogg');
+    game.load.audio('woosh', 'assets/sonido/woosh.ogg');
+    game.load.audio('wooshi', 'assets/sonido/wooshInverso.ogg');
+    game.load.audio('taladro', 'assets/sonido/taladro.ogg');
+    game.load.audio('ammopickup', 'assets/sonido/ammoPickup.ogg');
+    game.load.audio('mochilacohete', 'assets/sonido/mochilaCohete.ogg');
+    game.load.audio('intro', 'assets/sonido/' + PlayerAccount.skin + '_Intro.ogg');
+    game.load.audio('threat', 'assets/sonido/' + PlayerAccount.skin + '_Threat.ogg');
+    game.load.audio('slime', 'assets/sonido/slime.ogg');
+    game.load.audio('lanzar', 'assets/sonido/Lanzar.ogg');
 
     game.load.audio('enemyShotLaser', 'assets/sonido/enemyShotLaser.wav');
     game.load.audio('enemyShot', 'assets/sonido/enemyShot.wav');
+    game.load.audio('enemyDing', 'assets/sonido/enemyDing.ogg');
 
     // Fondos
     game.load.image('LaX', 'assets/LaX.png');
     game.load.image('Factorio', 'assets/Factorio.png');
     game.load.image('Jungla', 'assets/Jungla.png');
     game.load.image('Chino', 'assets/Chino.png');
+
+    // Construcciones
+    game.load.spritesheet('torreta', 'assets/playerSprites/Torreta.png', 32, 32);
+    game.load.spritesheet('mina', 'assets/playerSprites/Mina_Contusion.png', 32, 32);
+    game.load.spritesheet('dispensador', 'assets/playerSprites/Dispensador.png', 32, 32);
+
 
     // Suelos
     game.load.image('ground', 'assets/platform/' + PlayerAccount.mapa + '.png');
@@ -112,6 +133,7 @@ function loadAssets() {
     game.load.spritesheet('explosiveAmmo', 'assets/img/explosivos.png', 24, 24);
     game.load.spritesheet('energyAmmo', 'assets/img/energia.png', 24, 24);
     game.load.spritesheet('healthkit', 'assets/img/healthkit.png', 24, 24);
+    game.load.spritesheet('fullAmmoPack', 'assets/img/fullAmmoPack.png', 32, 32);
 
     // Armas
     precargaIconosArmas();
@@ -125,12 +147,24 @@ function loadAssets() {
     game.load.spritesheet('plasma', 'assets/img/Plasma.png', 16, 16);
     game.load.image('rail', 'assets/img/rail.png');
 
+    // BOSSES
+    game.load.image('slimeboss', 'assets/bosses/Slime.png');
+    game.load.spritesheet('slimebossh', 'assets/bosses/SlimeHeart.png', 64, 64);
+    game.load.spritesheet('ninja', 'assets/bosses/Ninja.png', 48, 48);
+
 
     game.load.image('enemyBullet', 'assets/img/bala.png');
+    game.load.image('tiroslime', 'assets/img/tiroslime.png');
+    game.load.image('shuriken', 'assets/img/shuriken.png');
+    game.load.spritesheet('espiritu', 'assets/img/espiritu.png', 32, 32);
+
     game.load.image('coheteEnemigo', 'assets/img/coheteEnemigo.png');
 
 }
 function create() {
+
+    // EL ORDEN EN EL QUE SE CREEN LAS COSAS AQUÍ DEFINE EL OVERLAP
+
     // CARGA DEL MUNDO
     //spaceBar.onDown.add(shootBullet, this);
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -145,6 +179,9 @@ function create() {
     platforms.enableBody = true;
     portales = game.add.group();
 
+    // Construcciones
+    construcciones = game.add.group();
+
     cargarMapa(PlayerAccount.mapa);
     platforms.forEach(function (item) {
         item.body.collideWorldBounds = true;
@@ -156,7 +193,6 @@ function create() {
         item.body.checkCollision.left = false;
         item.body.checkCollision.right = false;
     }, this);
-
     suaves.forEach(function (item) {
         item.body.collideWorldBounds = true;
         item.body.immovable = true;
@@ -179,6 +215,7 @@ function create() {
     // EFECTOS DE SONIDO
     SFX_SILENCIADO = game.add.audio('silenciado');
     SFX_ESCOPETA = game.add.audio('escopeta');
+    SFX_ESCOPETA.volume = 0.7;
     SFX_LANZACOHETES = game.add.audio('lanzacohetes');
     SFX_ENERGIA = game.add.audio('energia');
     SFX_LASER = game.add.audio('laser');
@@ -189,22 +226,40 @@ function create() {
     SFX_EQUIPAR.volume = 0.2;
     SFX_SWISH = game.add.audio('swish');
     SFX_ENEMYSHOT = game.add.audio('enemyShot');
+    SFX_ENEMYSHOT.volume = 0.6;
     SFX_ENEMYSHOTLASER = game.add.audio('enemyShotLaser');
+    SFX_ENEMYSHOTLASER.volume = 0.6;
+    SFX_ENEMYDING = game.add.audio('enemyDing');
     SFX_STATIC = game.add.audio('static');
     SFX_STATIC.volume = 0.4;
     SFX_STATIC.loop = true;
+    SFX_BEEPBEEP = game.add.audio('beepbeep');
+    SFX_BEEPBEEP.volume = 0.6;
+    SFX_WOOSH = game.add.audio('woosh');
+    SFX_WOOSHI = game.add.audio('wooshi');
+    SFX_TALADRO = game.add.audio('taladro');
+    SFX_TALADRO.volume = 0.6;
+    SFX_AMMOPICKUP = game.add.audio('ammopickup');
+    SFX_AMMOPICKUP.volume = 0.3;
+    SFX_MOCHILACOHETE = game.add.audio('mochilacohete');
+    SFX_INTRO = game.add.audio('intro');
+    SFX_THREAT = game.add.audio('threat');
+    SFX_SLIME = game.add.audio('slime');
+    SFX_LANZAR = game.add.audio('lanzar');
 
-    // BARRA VIDA (100 golpes)
-    healthBar = game.add.group();
-    actualizarVida();
-    healthBar.fixedToCamera = true;
-    healthBar.cameraOffset.setTo(10, 10);
 
     // ENEMIGOS
     enemies = game.add.group();
 
     // CAJAS DE MUNICION
     ammoBoxes = game.add.group();
+
+
+    // BARRA VIDA (100 golpes)
+    healthBar = game.add.group();
+    actualizarVida();
+    healthBar.fixedToCamera = true;
+    healthBar.cameraOffset.setTo(10, 10);
 
     // EFECTOS DE EXPLOSION
     explosiones = game.add.group();
@@ -245,6 +300,21 @@ function create() {
     textoPuntos.fixedToCamera = true;
     textoPuntos.cameraOffset.setTo(520, 55);
 
+    // Cronometro
+    if (PlayerAccount.hayBoss) {
+        cronometro = this.game.add.text(0, 0, PlayerAccount.tiempoParaElBoss, {font: "16px pressStart", fill: "#ffffff", stroke: "black", strokeThickness: 2});
+        cronometro.fixedToCamera = true;
+        cronometro.cameraOffset.setTo(10, 80);
+        TIEMPO_BOSS_INICIAL = PlayerAccount.tiempoParaElBoss;
+        EVENTO_CRONOMETRO = game.time.events.loop(1000, function () {
+            PlayerAccount.tiempoParaElBoss--;
+            if (PlayerAccount.tiempoParaElBoss <= 0) {
+                game.time.events.remove(EVENTO_CRONOMETRO);
+                bossSpawn();
+            }
+        });
+    }
+
     // BALAS
     enemyBullets = game.add.group();
     enemyBullets.enableBody = true;
@@ -267,10 +337,8 @@ function create() {
     // INICIAR MUSICA
     MUSICA.play();
 
-    // UN FAILSAFE
-    game.time.events.loop(2000, function () {
-        console.log(loopEsquivaFinalizar);
-    }, this);
+    game.camera.x = player.x / 2;
+    game.camera.y = player.y;
 
 }
 function update() {
@@ -278,23 +346,38 @@ function update() {
     // Si choca los bordes
     game.world.wrap(player, 10, false);
     enemies.forEachExists(function (enemigo) {
-        game.world.wrap(enemigo.body);
+        if (!enemigo.isBoss) {
+            game.world.wrap(enemigo.body);
+        }
     });
 
     game.physics.arcade.collide(player, platforms, function (player, plataforma) {
-        console.log(plataforma.body.width);
+        if (plataforma.body.width > plataforma.body.height) {
+            if (player.body.touching.down && plataforma.body.width < 800) {
+                puedeAtravesar = true;
+            } else {
+                puedeAtravesar = false;
+            }
+        }
+    }, null, this);
+    game.physics.arcade.collide(player, suaves, function (player, plataforma) {
         if (player.body.touching.down && plataforma.body.width < 800) {
             puedeAtravesar = true;
         } else {
             puedeAtravesar = false;
         }
     }, null, this);
-    game.physics.arcade.collide(player, suaves, function (player, plataforma) {
-        console.log(plataforma.body.width);
-        if (player.body.touching.down && plataforma.body.width < 800) {
-            puedeAtravesar = true;
+    game.physics.arcade.overlap(enemies, enemies, function (enemigo1, enemigo2) {
+        if (enemigo1.isBoss || enemigo2.isBoss) {
+
         } else {
-            puedeAtravesar = false;
+            if (enemigo1.body.x > enemigo2.body.x) {
+                enemigo1.body.x += 2;
+                enemigo2.body.x -= 2;
+            } else {
+                enemigo2.body.x += 2;
+                enemigo1.body.x -= 2;
+            }
         }
     }, null, this);
     game.physics.arcade.overlap(player, enemies, controlarChoqueEnemigo, null, this);
@@ -306,12 +389,14 @@ function update() {
 
     // Camara
     var offsetX = player.body.velocity.x / 20;
+
     game.camera.follow(player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
     game.camera.onFadeComplete.add(function () {
         game.camera.resetFX();
     }, this);
-
     //game.time.events.remove(loopRecibirDaño);
+
+
 }
 
 function render() {
@@ -319,10 +404,10 @@ function render() {
     platforms.forEachAlive(function (member) {
         game.debug.body(member);
     }, this);
-    suaves.forEachAlive(function (member) {
-        game.debug.body(member);
-    }, this);
-    game.debug.text(puedeAtravesar);
+    //game.debug.body(player);
+    if (boss) {
+        game.debug.body(boss);
+    }
 }
 function resize() {
 
@@ -332,9 +417,21 @@ function actualizarTextos() {
     textoExp.setText("EXP:" + municionExpActual + "/" + municionExpMax);
     textoEn.setText("EN:" + municionEnergiaActual + "/" + municionEnergiaMax);
     textoPuntos.setText("Puntos: " + puntos);
+    if (PlayerAccount.hayBoss) {
+        if (cronometro) {
+            cronometro.setText(PlayerAccount.tiempoParaElBoss);
+            if (PlayerAccount.tiempoParaElBoss < 15) {
+                cronometro.tint = 0xFF0000;
+            }
+        }
+    }
 }
 
 function animacionDaño(Sprite) {
+    SFX_ENEMYDING.play();
+    if (Sprite.onHit) {
+        Sprite.onHit();
+    }
     Sprite.tint = 0xff0000;
     game.add.tween(Sprite).to({tint: 0xffffff}, 1000, "Linear", true);
 }

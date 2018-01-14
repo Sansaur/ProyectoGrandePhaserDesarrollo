@@ -39,24 +39,34 @@ and open the template in the editor.
                 document.getElementById('MEM').value = cuentaActual.maximoMunicionExplosiva;
                 document.getElementById('MNI').value = cuentaActual.inicialMunicionEnergia;
                 document.getElementById('MNM').value = cuentaActual.maximoMunicionEnergia;
+                document.getElementById('TPB').value = cuentaActual.tiempoParaElBoss;
+                if(cuentaActual.hayBoss){
+                    document.getElementById('HB').checked = true;
+                }
                 document.getElementById('skin').value = cuentaActual.skin;
                 document.getElementById('mapa').value = cuentaActual.mapa;
 
                 var todasCuentas = JSON.parse(localStorage.getItem('Cuentas'));
                 var tituloRecords = crearNodo("DIV", null, ["class"], ["tituloRecord"]);
+                tituloRecords.appendChild(crearNodo("DIV", "PJ", ["class"], ["inforecord"]));
                 tituloRecords.appendChild(crearNodo("DIV", "Nombre", ["class"], ["inforecord"]));
-                tituloRecords.appendChild(crearNodo("DIV", "Récord", ["class"], ["inforecord"]));
-                tituloRecords.appendChild(crearNodo("DIV", "Hándicap", ["class"], ["inforecord"]));
+                tituloRecords.appendChild(crearNodo("DIV", "Puntos", ["class"], ["inforecord"]));
+                tituloRecords.appendChild(crearNodo("DIV", "Hand", ["class"], ["inforecord"]));
                 document.getElementById('recordsDeCuentas').appendChild(tituloRecords);
                 todasCuentas.sort(compare);
                 for (var item in todasCuentas) {
                     var nuevoNodo = crearNodo("DIV", null, ["class"], ["record"]);
+                    var img = crearNodo("IMG", null, ["class","width","height","src","title"], ["recordImg",32,32,"img/"+todasCuentas[item].personajeRecord+".png",todasCuentas[item].personajeRecord]);
+                    var midimg = crearNodo("DIV", null, ["class"], ["inforecord"]);
+                    midimg.appendChild(img);
+                    nuevoNodo.appendChild(midimg);
                     nuevoNodo.appendChild(crearNodo("DIV", todasCuentas[item].nombre, ["class"], ["inforecord"]));
                     nuevoNodo.appendChild(crearNodo("DIV", todasCuentas[item].record || "0", ["class"], ["inforecord"]));
                     nuevoNodo.appendChild(crearNodo("DIV", todasCuentas[item].handicapRecord || "0", ["class"], ["inforecord"]));
                     document.getElementById('recordsDeCuentas').appendChild(nuevoNodo);
                     // todasCuentas[item].record + "" + todasCuentas[item].record + "" + todasCuentas[item].handicapRecord
                 }
+                actualizarInformacionPersonaje();
             }
             function rellenarCuenta(cuentaActual) {
                 var MI = parseInt(document.getElementById('MBI').value);
@@ -95,6 +105,13 @@ and open the template in the editor.
                 cuentaActual.mapa = document.getElementById('mapa').value;
                 cuentaActual.skin = document.getElementById('skin').value;
                 cuentaActual.dificultad = parseInt(document.getElementById('handicap').value);
+                if(document.getElementById('HB').checked){
+                    cuentaActual.tiempoParaElBoss = parseInt(document.getElementById('TPB').value);
+                    cuentaActual.hayBoss = true;
+                } else {
+                    cuentaActual.tiempoParaElBoss = parseInt(document.getElementById('TPB').value);
+                    cuentaActual.hayBoss = false;
+                }
 
                 return cuentaActual;
             }
@@ -119,6 +136,19 @@ and open the template in the editor.
                 localStorage.setItem('CuentaActual', null);
                 location.replace('login.html');
             }
+            
+            function actualizarInformacionPersonaje(){
+                var informacionPersonaje = document.getElementById('informacionPersonaje');
+                while(informacionPersonaje.firstChild){
+                    informacionPersonaje.removeChild(informacionPersonaje.firstChild);
+                }
+                var personajeElegido = document.getElementById('skin').value;
+                switch(personajeElegido){
+                    case "Security": informacionPersonaje.appendChild(document.createTextNode("Salta con una mochila cohete con el jefe de seguridad"));break;
+                    case "TimeTrooper": informacionPersonaje.appendChild(document.createTextNode("Viaja atrás en el tiempo y usa estrategias de posicionamiento"));break;
+                    case "Engineer": informacionPersonaje.appendChild(document.createTextNode("Despliega construcciones y juega de manera táctica"));break;
+                }
+            }
 
         </script>
         <link rel="stylesheet" href="css/form.css" />
@@ -129,8 +159,10 @@ and open the template in the editor.
             <div id="opcionesDeJuego">
                 <h1>Opciones</h1>
                 <label>Skin
-                    <select id="skin">
+                    <select id="skin" onchange="actualizarInformacionPersonaje()">
                         <option value="Security">Security</option>
+                        <option value="TimeTrooper">TimeTrooper</option>
+                        <option value="Engineer">Engineer</option>
                     </select>
                 </label>
                 <label>Handicap<input type="number" id="handicap"></label>
@@ -148,6 +180,8 @@ and open the template in the editor.
                         <option value="Chino">Chino</option>
                     </select>
                 </label>
+                <label>Tiempo para el boss<input type="number" min="0" max="999" id="TPB"></label>
+                <label>¿Hay Boss?<input type="checkbox" id="HB"></label>
                 <p id="informacionPersonaje"></p>
                 <button onclick="finalizarFormulario()" type="button">¡INICIAR!</button>
             </div>
