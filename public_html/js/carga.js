@@ -5,7 +5,7 @@ var canvasHeight = 600;
 // Esta variable es muy importante pasarla y usarla.
 // "game" es GLOBAL
 // ANTES ERA Phaser.AUTO
-var game = new Phaser.Game(canvasWidth, canvasHeight, Phaser.AUTO, 'juego', {preload: preload, create: create, update: update});
+var game = new Phaser.Game(canvasWidth, canvasHeight, Phaser.AUTO, 'juego', {preload: preload, create: create, update: update, render: render});
 
 // Diferntes tipos de plataformas
 var platforms;
@@ -398,16 +398,8 @@ function update() {
 
 
 }
-
 function render() {
-    // call renderGroup on each of the alive members    
-    platforms.forEachAlive(function (member) {
-        game.debug.body(member);
-    }, this);
-    //game.debug.body(player);
-    if (boss) {
-        game.debug.body(boss);
-    }
+
 }
 function resize() {
 

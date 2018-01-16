@@ -55,7 +55,7 @@ Shuriken.prototype.update = function () {
 
 var NUMERO_ESPIRITUS = 0;
 
-Espiritu = function (game, x, y, damage, ninja) {
+Espiritu = function (game, x, y, damage, ninja, tiempoVida) {
     Phaser.Sprite.call(this, game, x, y, "espiritu");
     game.physics.enable(this, Phaser.Physics.ARCADE);
     this.collideWorldBounds = false;
@@ -74,7 +74,7 @@ Espiritu = function (game, x, y, damage, ninja) {
     this.isBoss = true;
     this.ninja = ninja;
     this.turbo = 0.001 * NUMERO_ESPIRITUS;
-    var v = game.add.tween(this).to({alpha: 0.2}, 30000, "Linear", true);
+    var v = game.add.tween(this).to({alpha: 0.2}, tiempoVida, "Linear", true);
     v.onComplete.add(function (e) {
         NUMERO_ESPIRITUS--;
         e.kill();
@@ -128,13 +128,18 @@ Ninja = function (game, x, y, damage) {
     // damageDealt es para saber cuanto daño hacen.
     this.damageDealt = damage + PlayerAccount.dificultad || 1 + PlayerAccount.dificultad;
     // health es para su vida.
-    this.health = 100 + PlayerAccount.dificultad * 5;
+    this.health = 125 + PlayerAccount.dificultad * 5;
     this.funcionalidadNormal = true;
-
+    // Cooldown de patada voladora
+    this.patadaVoladora = 0;
+    this.invocacion;
+    this.cambiazo;
     // ESTO SE DEFINE AQUÍ
-    //this.onHit
+    // Ataques
     this.eventoShuriken;
+    this.saltos = 0; // Si los saltos son divisibles entre 15, hará un superataque
     enemies.add(this);
+    boss = this;
 };
 Ninja.prototype = Object.create(Phaser.Sprite.prototype);
 Ninja.prototype.constructor = Ninja;
@@ -176,42 +181,48 @@ Ninja.prototype.update = function () {
         this.x = game.world.centerX;
         this.y = game.world.centerY;
     }
-    if (this.body.touching.down) {
-    } else {
-        // Patada voladora contra el jugador
-        if (player.y === this.y) {
-            var velocidad = 800;
-            if(player.x < this.y){
-                velocidad *= -1;
-            }
-             this.body.velocity.x = velocidad;
-
+    // Patada voladora contra el jugador
+    var distanciaY = Math.abs(player.body.y - this.body.y);
+    if (distanciaY < 75 && (game.time.now > this.patadaVoladora + 7000) && !this.canalizando) {
+        var velocidad = 800;
+        if (player.x < this.y) {
+            velocidad *= -1;
         }
-        if (this.body.velocity.x > 500) {
-            this.animations.play('salto');
-        } else {
-            if (this.body.velocity.y < 0) {
-                this.animations.play('katana1');
-            } else {
-                this.animations.play('katana2');
-            }
-        }
-
+        this.body.velocity.x = velocidad;
+        this.patadaVoladora = game.time.now;
+        this.saltos++;
     }
-
+    if (this.body.velocity.x > 500) {
+        this.animations.play('salto');
+    } else {
+        if (this.body.velocity.y < 0) {
+            this.angle += 5;
+            this.animations.play('katana1');
+        } else {
+            this.angle += 25;
+            this.animations.play('katana2');
+        }
+    }
+    if (this.canalizando) {
+        this.animations.play('simbolo');
+    }
+    if (this.cambiazo) {
+        this.animations.play('cambiazo');
+    }
     // Contra el jugador
     var distanciaJugador = Phaser.Math.distance(player.body.x, player.body.y, this.body.x, this.body.y);
     var jugadorArriba = (player.body.y < this.body.y) ? true : false;
 
 
     if (!this.eventoShuriken) {
-        this.eventoShuriken = game.time.events.add(3000, function () {
+        this.eventoShuriken = game.time.events.add(1800, function () {
             console.log(distanciaJugador);
             this.eventoShuriken = null;
-
             if (distanciaJugador > 150 && !distanciaJugador < 90) {
-                SFX_LANZAR.play();
-                new Shuriken(game, this.x, this.y, 10, 10000);
+                if (this.alive && !this.canalizando) {
+                    SFX_LANZAR.play();
+                    new Shuriken(game, this.x, this.y, 10, 10000);
+                }
             }
         }, this);
     }
@@ -227,20 +238,81 @@ Ninja.prototype.update = function () {
         }
     }
 
+
+
     game.physics.arcade.overlap(this, enemies, function (soldado, platform) {
 
     });
     game.physics.arcade.collide(this, platforms, function (soldado, platform) {
-        soldado.animations.play('moverse');
-        if (jugadorArriba) {
-            soldado.body.velocity.y = -600;
-            if (player.x > soldado.x) {
-                soldado.body.velocity.x = 500;
-            } else {
-                soldado.body.velocity.x = -500;
-            }
-        } else {
+        soldado.angle = 0;
+        if (soldado.saltos % 15 === 0 && !soldado.canalizando) {
+            // Super ataque.
+            console.warn("¡Ataque!");
+            soldado.canalizando = true;
+            soldado.body.velocity.x = 0;
+            soldado.body.velocity.y = 0;
+            soldado.animations.play('simbolo');
+            var vidaInicial = soldado.health;
+            game.time.events.add(2500, function () {
+                if (soldado.health < vidaInicial) {
+                    var explosion = explosiones.getFirstExists(false);
+                    explosion.reset(soldado.body.x + 16, soldado.body.y + 16);
+                    explosion.play('explosion', 30, false, true);
+                    SFX_EXPLOSION.play();
+                    soldado.cambiazo = true;
+                    soldado.animations.play('cambiazo');
+                    soldado.health = vidaInicial;
+                    game.time.events.add(1000, function () {
+                        soldado.x = player.x;
+                        soldado.y = player.y - 100;
+                        soldado.animations.play('katana2');
+                        soldado.canalizando = false;
+                        soldado.cambiazo = false;
+                        soldado.saltos++;
+                        game.time.events.add(100, function () {
+                            explosion = explosiones.getFirstExists(false);
+                            explosion.reset(soldado.body.x + 16, soldado.body.y + 16);
+                            explosion.play('explosion', 30, false, true);
+                            SFX_EXPLOSION.play();
+                        }, this);
+                    }, this);
+                } else {
+                    if (!soldado.invocacion) {
 
+                        soldado.invocacion = game.time.events.add(50, function () {
+                            new Espiritu(game, soldado.x + 30, soldado.y + 30, 10, soldado, 20000);
+                            new Espiritu(game, soldado.x + 30, soldado.y + 30, 10, soldado, 20000);
+                            // También embruja al jugador, así lo tiene más jodido para disparar
+                            new Espiritu(game, player.x + 30, player.y + 30, 10, player, 10000);
+                            new Espiritu(game, player.x + 30, player.y + 30, 10, player, 10000);
+                            soldado.invocacion = null;
+                        }, this);
+                    }
+                    soldado.canalizando = false;
+                    soldado.saltos++;
+                }
+            }, this);
+        } else if (!soldado.canalizando) {
+            soldado.animations.play('moverse');
+            if (jugadorArriba) {
+                soldado.body.velocity.y = -600;
+                soldado.saltos++;
+                if (player.x > soldado.x) {
+                    soldado.body.velocity.x = 500;
+                } else {
+                    soldado.body.velocity.x = -500;
+                }
+            } else {
+                if (player.x > soldado.x) {
+                    game.time.events.add(500, function () {
+                        soldado.body.velocity.x = 500;
+                    }, this);
+                } else {
+                    game.time.events.add(500, function () {
+                        soldado.body.velocity.x = -500;
+                    }, this);
+                }
+            }
         }
     });
 };

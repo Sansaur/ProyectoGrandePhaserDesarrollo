@@ -29,10 +29,10 @@ function bossSpawn() {
             NUEVAMUSICA.play();
 
             var nuevoBoss = new Ninja(game, game.world.width / 2, game.world.height / 2, 10);
-            new Espiritu(game, nuevoBoss.x + 30, nuevoBoss.y + 30, 10, nuevoBoss);
-            new Espiritu(game, nuevoBoss.x + 30, nuevoBoss.y + 30, 10, nuevoBoss);
-            new Espiritu(game, nuevoBoss.x + 30, nuevoBoss.y + 30, 10, nuevoBoss);
-            new Espiritu(game, nuevoBoss.x + 30, nuevoBoss.y + 30, 10, nuevoBoss);
+            new Espiritu(game, nuevoBoss.x + 30, nuevoBoss.y + 30, 10, nuevoBoss, 20000);
+            new Espiritu(game, nuevoBoss.x + 30, nuevoBoss.y + 30, 10, nuevoBoss, 20000);
+            new Espiritu(game, nuevoBoss.x + 30, nuevoBoss.y + 30, 10, nuevoBoss, 20000);
+            new Espiritu(game, nuevoBoss.x + 30, nuevoBoss.y + 30, 10, nuevoBoss, 20000);
             break;
         case 2:
             alert("¡Metal wizard!");
