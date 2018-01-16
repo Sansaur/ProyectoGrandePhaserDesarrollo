@@ -27,20 +27,17 @@ var CuentaNueva = {
 
 
 function cargarListeners() {
-    var eles = document.querySelectorAll('input');
-    for (var i=0;i<eles.length;i++) {
-        eles[i].addEventListener("keyup", function (e) {
-            if(e.keyCode === 13){
-                document.getElementById('botonSubmit').click();
-            }
-        }, false);
-    }
+    $('input').keyup(function (e) {
+        if (e.keyCode === 13) {
+            document.getElementById('botonSubmit').click();
+        }
+    });
 }
 
 
 function login() {
-    var nombre = document.getElementById('name').value;
-    var contraseña = document.getElementById('pass').value;
+    var nombre = $('#name').val();
+    var contraseña = $('#pass').val();
     if (!nombre.patternMismatch && !contraseña.patternMismatch) {
         cambiarCuenta(nombre, contraseña);
     } else {
@@ -68,8 +65,8 @@ function cambiarCuenta(nombre, contraseña) {
 }
 
 function nuevaCuenta() {
-    var nombre = document.getElementById('name').value;
-    var contraseña = document.getElementById('pass').value;
+    var nombre = $('#name').val();
+    var contraseña = $('#pass').val();
     if (!nombre.patternMismatch && !contraseña.patternMismatch && nombre.length > 0 && contraseña.length > 0) {
         crearNuevaCuenta(nombre, contraseña);
     } else {
@@ -100,8 +97,6 @@ function crearNuevaCuenta(nombre, contraseña) {
 }
 
 function cambiarCajitaInfo(text) {
-    while (document.getElementById('cajitaInfo').firstChild) {
-        document.getElementById('cajitaInfo').removeChild(document.getElementById('cajitaInfo').firstChild);
-    }
-    document.getElementById('cajitaInfo').appendChild(document.createTextNode(text));
+    $('#cajitaInfo').empty();
+    $('#cajitaInfo').append(text);
 }

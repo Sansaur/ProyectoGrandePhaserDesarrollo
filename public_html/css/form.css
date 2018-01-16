@@ -144,6 +144,16 @@ h1{
 #botonSalir{
     width: 100vw;
 }
+#setupsDificultad{
+    margin-top: 5px;
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+#setupsDificultad button{
+    padding: 5px;
+}
 /*
 *   Opciones y Récords
 */
@@ -166,14 +176,17 @@ h1{
     }
     #opcionesDeJuego {
         width: 100%;
+        height: auto;
     }
     #opcionesDeJuego h1{
         font-size: 26px;
     }
     #recordsDeCuentas{
         width: 100%;
+        height: auto;
     }
     #instrucciones{
         width: 100%;
+        height: auto;
     }
 }
