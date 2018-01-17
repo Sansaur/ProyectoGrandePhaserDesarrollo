@@ -134,6 +134,7 @@ Ninja = function (game, x, y, damage) {
     this.patadaVoladora = 0;
     this.invocacion;
     this.cambiazo;
+    this.superShuriken = 1;
     // ESTO SE DEFINE AQUÍ
     // Ataques
     this.eventoShuriken;
@@ -185,21 +186,23 @@ Ninja.prototype.update = function () {
     var distanciaY = Math.abs(player.body.y - this.body.y);
     if (distanciaY < 75 && (game.time.now > this.patadaVoladora + 7000) && !this.canalizando) {
         var velocidad = 800;
-        if (player.x < this.y) {
+        if (player.x > this.y) {
             velocidad *= -1;
         }
+        this.angle = 0;
         this.body.velocity.x = velocidad;
+        this.body.velocity.y = -1;
         this.patadaVoladora = game.time.now;
         this.saltos++;
     }
-    if (this.body.velocity.x > 500) {
+    if (Math.abs(this.body.velocity.x) > 500) {
         this.animations.play('salto');
     } else {
         if (this.body.velocity.y < 0) {
-            this.angle += 5;
+            this.angle += 25;
             this.animations.play('katana1');
         } else {
-            this.angle += 25;
+            this.angle = 0;
             this.animations.play('katana2');
         }
     }
@@ -219,9 +222,17 @@ Ninja.prototype.update = function () {
             console.log(distanciaJugador);
             this.eventoShuriken = null;
             if (distanciaJugador > 150 && !distanciaJugador < 90) {
+                if (this.alive && !this.canalizando && this.superShuriken % 5 === 0) {
+                    var loopShurikens = game.time.events.repeat(250, 5, function () {
+                        SFX_LANZAR.play();
+                        new Shuriken(game, this.x, this.y, 10, 10000);
+                        this.superShuriken = 1;
+                    }, this);
+                }
                 if (this.alive && !this.canalizando) {
                     SFX_LANZAR.play();
                     new Shuriken(game, this.x, this.y, 10, 10000);
+                    this.superShuriken++;
                 }
             }
         }, this);
@@ -238,7 +249,10 @@ Ninja.prototype.update = function () {
         }
     }
 
-
+    if(this.canalizando){
+        this.body.velocity.x = 0;
+        this.body.velocity.y = 0;
+    }
 
     game.physics.arcade.overlap(this, enemies, function (soldado, platform) {
 
@@ -253,7 +267,7 @@ Ninja.prototype.update = function () {
             soldado.body.velocity.y = 0;
             soldado.animations.play('simbolo');
             var vidaInicial = soldado.health;
-            game.time.events.add(2500, function () {
+            game.time.events.add(2000, function () {
                 if (soldado.health < vidaInicial) {
                     var explosion = explosiones.getFirstExists(false);
                     explosion.reset(soldado.body.x + 16, soldado.body.y + 16);
