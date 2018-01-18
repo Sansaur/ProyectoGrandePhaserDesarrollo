@@ -24,7 +24,7 @@ Municion = function (game, x, y, sprite, cantidad, tipo) {
     this.body.bounce.x = 0;
     this.body.collideWorldBounds = false;
     this.body.velocity.x = 0;
-    this.body.velocity.y = -300;
+    this.body.velocity.y = -200;
     this.tipo = tipo || 1; // 1 = Balas, 2 = Explosivos, 3 = Energia, 4 = Vida
     this.cantidad = cantidad;
     ammoBoxes.add(this);
@@ -32,6 +32,9 @@ Municion = function (game, x, y, sprite, cantidad, tipo) {
 Municion.prototype = Object.create(Phaser.Sprite.prototype);
 Municion.prototype.constructor = Municion;
 Municion.prototype.update = function () {
+    if(this.tipo === 5){
+        game.physics.arcade.moveToObject(this, player, 100);
+    }
     game.physics.arcade.collide(this, platforms, function (caja, platform) {
         
     });

@@ -102,7 +102,9 @@ function perderVidaBala(player, bala) {
         explosion.play('explosion', 30, false, true);
     }
     perderVida(player, bala);
-    bala.kill();
+    if (!bala.unkillable) {
+        bala.kill();
+    }
 }
 function controlarChoqueEnemigo(player, enemy) {
     //  Si el jugador está saltando mientras toca a un enemigo por una zona superior a él rebotará, pero esta habilidad tiene cooldown
@@ -166,15 +168,17 @@ function actualizarVida() {
         // REHACER ESTO EN UNA ANIMACIÓN DE MUERTE CON UNA ANIMACION ONCOMPLETE
         puedeControlarJugador = false;
         var contadorLoop = 0;
-        loopMuerte = game.time.events.loop(50, function () {
+        loopMuerte = game.time.events.loop(100, function () {
             var explosion = explosiones.getFirstExists(false);
-            explosion.reset(player.body.x + game.rnd.integerInRange(-30, 30), player.body.y + game.rnd.integerInRange(-30, 30));
-            explosion.play('explosion', 30, false, true);
+            if (explosion) {
+                explosion.reset(player.body.x + game.rnd.integerInRange(-30, 30), player.body.y + game.rnd.integerInRange(-30, 30));
+                explosion.play('explosion', 30, false, true);
+            }
             SFX_EXPLOSION.play();
             contadorLoop++;
             player.body.velocity.x = 0;
             player.body.velocity.y = 0;
-            if (contadorLoop > 50) {
+            if (contadorLoop > 25) {
                 game.paused = true;
                 imagenFondo.tint = 0x444444;
                 explosiones.forEach(function (item) {

@@ -149,25 +149,11 @@ Ninja.prototype.onHit = function () {
 };
 ;
 Ninja.prototype.dropearMuerte = function () {
-    /*
-     CORAZONES_SLIME_BOSS--;
-     if (CORAZONES_SLIME_BOSS === 0) {
-     portales.forEach(function (item) {
-     item.desactivado = false;
-     item.alpha = 1;
-     }, this);
-     enemies.forEach(function (item) {
-     item.dropearMuerte();
-     item.kill();
-     }, this);
-     PARED_1.kill();
-     PARED_2.kill();
-     NUMERO_BOSSES_ASESINADOS++;
-     reiniciarEventoCronometro();
-     }
-     this.kill();
-     */
-    this.kill();
+    NUEVAMUSICA.fadeOut(3000);
+    game.time.events.add(5000,function(){
+        limpiezaDeBoss();
+    },this);
+    this.destroy();
 }
 Ninja.prototype.update = function () {
     if (this.x < -64 || this.y > game.world.height) {
@@ -249,7 +235,7 @@ Ninja.prototype.update = function () {
         }
     }
 
-    if(this.canalizando){
+    if (this.canalizando) {
         this.body.velocity.x = 0;
         this.body.velocity.y = 0;
     }
@@ -261,7 +247,7 @@ Ninja.prototype.update = function () {
         soldado.angle = 0;
         if (soldado.saltos % 15 === 0 && !soldado.canalizando) {
             // Super ataque.
-            console.warn("¡Ataque!");
+            SFX_NINJA_SYMBOL.play();
             soldado.canalizando = true;
             soldado.body.velocity.x = 0;
             soldado.body.velocity.y = 0;
@@ -269,6 +255,7 @@ Ninja.prototype.update = function () {
             var vidaInicial = soldado.health;
             game.time.events.add(2000, function () {
                 if (soldado.health < vidaInicial) {
+                    SFX_NINJA_FOOL.play();
                     var explosion = explosiones.getFirstExists(false);
                     explosion.reset(soldado.body.x + 16, soldado.body.y + 16);
                     explosion.play('explosion', 30, false, true);
@@ -292,7 +279,7 @@ Ninja.prototype.update = function () {
                     }, this);
                 } else {
                     if (!soldado.invocacion) {
-
+                        SFX_NINJA_CAST.play();
                         soldado.invocacion = game.time.events.add(50, function () {
                             new Espiritu(game, soldado.x + 30, soldado.y + 30, 10, soldado, 20000);
                             new Espiritu(game, soldado.x + 30, soldado.y + 30, 10, soldado, 20000);

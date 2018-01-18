@@ -81,6 +81,7 @@ function loadAssets() {
 
     game.load.audio('SlimeBoss', 'assets/musica/Slime.ogg');
     game.load.audio('NinjaBoss', 'assets/musica/Ninja.ogg');
+    game.load.audio('WizardBoss', 'assets/musica/Wizard.ogg');
 
     // SFX
     game.load.audio('silenciado', 'assets/sonido/silenciado.wav');
@@ -103,10 +104,25 @@ function loadAssets() {
     game.load.audio('threat', 'assets/sonido/' + PlayerAccount.skin + '_Threat.ogg');
     game.load.audio('slime', 'assets/sonido/slime.ogg');
     game.load.audio('lanzar', 'assets/sonido/Lanzar.ogg');
+    game.load.audio('carga', 'assets/sonido/carga.ogg');
+    game.load.audio('magia', 'assets/sonido/magia.ogg');
+    game.load.audio('lanzamiento', 'assets/sonido/WIZARD_LANZAMIENTO.ogg');
+    game.load.audio('meteorito', 'assets/sonido/meteorito.ogg');
+    game.load.audio('magic_trap', 'assets/sonido/magic_trap.ogg');
 
     game.load.audio('enemyShotLaser', 'assets/sonido/enemyShotLaser.wav');
     game.load.audio('enemyShot', 'assets/sonido/enemyShot.wav');
     game.load.audio('enemyDing', 'assets/sonido/enemyDing.ogg');
+    game.load.audio('boss', 'assets/sonido/boss.ogg');
+    
+    
+    game.load.audio('NINJA_SYMBOL', 'assets/sonido/NINJA_SYMBOL.ogg');
+    game.load.audio('NINJA_CAST', 'assets/sonido/NINJA_CAST.ogg');
+    game.load.audio('NINJA_FOOL', 'assets/sonido/NINJA_FOOL.ogg');
+    
+    game.load.audio('WIZARD_CAST_1', 'assets/sonido/WIZARD_CAST_1.ogg');
+    game.load.audio('WIZARD_CAST_2', 'assets/sonido/WIZARD_CAST_2.ogg');
+    game.load.audio('WIZARD_CAST_3', 'assets/sonido/WIZARD_CAST_3.ogg');
 
     // Fondos
     game.load.image('LaX', 'assets/LaX.png');
@@ -148,10 +164,18 @@ function loadAssets() {
     game.load.image('rail', 'assets/img/rail.png');
 
     // BOSSES
+    // Slime
     game.load.image('slimeboss', 'assets/bosses/Slime.png');
     game.load.spritesheet('slimebossh', 'assets/bosses/SlimeHeart.png', 64, 64);
+    // Ninja
     game.load.spritesheet('ninja', 'assets/bosses/Ninja.png', 48, 48);
-
+    // Wizard
+    game.load.spritesheet('wizard', 'assets/bosses/Wizard.png', 48, 48);
+    game.load.spritesheet('barrera', 'assets/img/EsferaProt.png', 48,48);
+    game.load.image('magic_trap', 'assets/img/magic_trap.png');
+    game.load.image('meteorito', 'assets/img/meteorito.png');
+    game.load.image('magic_missile', 'assets/img/magic_missile.png');
+    game.load.image('probe', 'assets/img/probe.png');
 
     game.load.image('enemyBullet', 'assets/img/bala.png');
     game.load.image('tiroslime', 'assets/img/tiroslime.png');
@@ -246,6 +270,27 @@ function create() {
     SFX_THREAT = game.add.audio('threat');
     SFX_SLIME = game.add.audio('slime');
     SFX_LANZAR = game.add.audio('lanzar');
+    
+    SFX_BOSS_INCOMING = game.add.audio('boss');
+    SFX_BOSS_INCOMING.volume = 0.5;
+    
+    SFX_NINJA_SYMBOL = game.add.audio('NINJA_SYMBOL');
+    SFX_NINJA_CAST = game.add.audio('NINJA_CAST');
+    SFX_NINJA_FOOL = game.add.audio('NINJA_FOOL');
+    
+    SFX_WIZARD_CAST_1 = game.add.audio('WIZARD_CAST_1');
+    SFX_WIZARD_CAST_1.volume = 0.7;
+    SFX_WIZARD_CAST_2 = game.add.audio('WIZARD_CAST_2');
+    SFX_WIZARD_CAST_2.volume = 0.7;
+    SFX_WIZARD_CAST_3 = game.add.audio('WIZARD_CAST_3');
+    SFX_WIZARD_CAST_3.volume = 0.7;
+    SFX_WIZARD_CARGA = game.add.audio('carga');
+    SFX_WIZARD_CARGA.volume = 0.5;
+    SFX_WIZARD_MAGIA = game.add.audio('magia');
+    SFX_WIZARD_MAGIA.volume = 0.4;
+    SFX_WIZARD_LANZAMIENTO = game.add.audio('lanzamiento');
+    SFX_WIZARD_METEORITO = game.add.audio('meteorito');
+    SFX_WIZARD_MAGIC_TRAP = game.add.audio('magic_trap');
 
 
     // ENEMIGOS
@@ -399,7 +444,9 @@ function update() {
 
 }
 function render() {
-
+    //enemyBullets.forEach(function(e){
+    //    game.debug.body(e);
+    //})
 }
 function resize() {
 

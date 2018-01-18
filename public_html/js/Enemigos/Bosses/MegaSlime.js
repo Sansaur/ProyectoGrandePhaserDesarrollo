@@ -151,18 +151,13 @@ CorazonSlime.prototype.constructor = CorazonSlime;
 CorazonSlime.prototype.dropearMuerte = function () {
     CORAZONES_SLIME_BOSS--;
     if (CORAZONES_SLIME_BOSS === 0) {
-        portales.forEach(function (item) {
-            item.desactivado = false;
-            item.alpha = 1;
-        }, this);
-        enemies.forEach(function (item) {
-            item.dropearMuerte();
-            item.kill();
-        }, this);
         PARED_1.kill();
         PARED_2.kill();
-        NUMERO_BOSSES_ASESINADOS++;
-        reiniciarEventoCronometro();
+        NUEVAMUSICA.fadeOut(3000);
+        game.time.events.add(5000, function () {
+            limpiezaDeBoss();
+        }, this);
+        this.destroy();
     }
     this.kill();
 }

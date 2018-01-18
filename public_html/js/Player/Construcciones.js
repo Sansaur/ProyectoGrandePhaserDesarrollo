@@ -122,7 +122,7 @@ Mina.prototype.explotar = function () {
         player.body.velocity.y = -1000;
     }
     var YO = this;
-    enemies.forEach(function (item) {
+    enemies.forEachAlive(function (item) {
         if (Phaser.Math.distance(item.x, item.y, YO.body.x, YO.body.y) < 100 && !item.isBoss) {
             item.body.velocity.y = -1000;
         }
