@@ -37,6 +37,7 @@ Graviton.prototype.dropearMuerte = function () {
 }
 Graviton.prototype.update = function () {
     if (!this.alive) {
+        this.eventoDisparo = null;
         return;
     }
     // MAXIMO DE VELOCIDAD PARA ESTE ENEMIGO
@@ -55,6 +56,9 @@ Graviton.prototype.update = function () {
     if (Phaser.Math.distance(player.body.x, player.body.y, this.body.x, this.body.y) < 150) {
         if (!this.eventoDisparo) {
             this.eventoDisparo = game.time.events.add(550, function () {
+                if (!this) {
+                    return;
+                }
                 this.eventoDisparo = null;
                 if (player.body.y > this.body.y) {
 

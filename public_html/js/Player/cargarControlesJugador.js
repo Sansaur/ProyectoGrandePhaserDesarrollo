@@ -57,6 +57,9 @@ function elegirArma(numero) {
     SFX_EQUIPAR.play();
 }
 function movimientoBasico() {
+    if(!player.girando){
+        player.angle = 0;
+    }
     if (TECLA_1.isDown) {
         elegirArma(1);
     } else if (TECLA_2.isDown) {
@@ -100,7 +103,7 @@ function movimientoBasico() {
     if (puedeControlarJugador) {
         // Atravesar plataformas si mantiene abajo
         if (FLECHAS.down.isDown) {
-            if(puedeAtravesar && player.body.touching.down){
+            if (puedeAtravesar && player.body.touching.down) {
                 player.body.y += 15;
                 puedeAtravesar = false;
             }
@@ -211,7 +214,7 @@ function habilidadEspecial() {
             game.time.events.add(300, finCohete, this);
             break;
         case "TimeTrooper":
-            if(copia){
+            if (copia) {
                 player.body.x = copia.x;
                 player.body.y = copia.y;
                 copia.kill();
@@ -230,10 +233,49 @@ function habilidadEspecial() {
             SFX_TALADRO.play();
             construir();
             break;
-            
+        case "Pirate":
+            // Se ve en "Construcciones.js"
+            superEsquivar(player)
+            break;
+
     }
+}
+var loopSuperEsquiva;
+function superEsquivar(player) {
+    ultimaHabilidadEspecial = ultimaHabilidadEspecial - 750; // Menos enfriamiento
+    SFX_SWISH.play();
+    player.canGetHit = 0;
+    cambiaAnimacionMovimiento = 0;
+    puedeControlarJugador = false;
+    // Si hay ultimaDireccion es que fue a la derecha.
+    if (ultimaDireccion < 0) {
+        loopSuperEsquiva = game.time.events.loop(1, function () {
+            player.body.velocity.x = 600;
+            player.body.velocity.y = -300;
+            player.angle += 10;
+            player.girando = true;
+            player.animations.play('esquivar');
+        }, this);
+    } else {
+        loopSuperEsquiva = game.time.events.loop(1, function () {
+            player.body.velocity.x = -600;
+            player.body.velocity.y = -300;
+            player.angle -= 10;
+            player.girando = true;
+            player.animations.play('esquivar');
+        }, this);
+    }
+    game.time.events.add(300, finSuperEsquivar, this);
+}
 
 
+
+function finSuperEsquivar() {
+    player.girando = false;
+    puedeControlarJugador = true;
+    cambiaAnimacionMovimiento = 1;
+    player.canGetHit = 1;
+    game.time.events.remove(loopSuperEsquiva);
 }
 
 function finCohete() {

@@ -67,6 +67,10 @@ Pistolero.prototype.dropearMuerte = function () {
     this.kill();
 }
 Pistolero.prototype.update = function () {
+    if (!this.alive) {
+        this.eventoDisparo = null;
+        return;
+    }
     // MAXIMO DE VELOCIDAD PARA ESTE ENEMIGO
     if (this.body.velocity.y > 1000) {
         this.body.velocity.y = 1000;
@@ -84,6 +88,9 @@ Pistolero.prototype.update = function () {
         if (Math.abs(player.body.y - slime.body.y) < 20) {
             if (!slime.eventoDisparo) {
                 slime.eventoDisparo = game.time.events.add(1000, function () {
+                    if (!slime) {
+                        return;
+                    }
                     slime.eventoDisparo = null;
                     if (player.body.x > slime.body.x) {
                         if (slime.alive) {

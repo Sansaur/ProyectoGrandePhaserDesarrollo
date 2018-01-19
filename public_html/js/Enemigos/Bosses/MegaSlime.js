@@ -59,6 +59,9 @@ MiniSlime = function (game, x, y, damage) {
 MiniSlime.prototype = Object.create(Phaser.Sprite.prototype);
 MiniSlime.prototype.constructor = MiniSlime;
 MiniSlime.prototype.dropearMuerte = function () {
+    if(!this.alive){
+        return;
+    }
     SFX_SLIME.play();
     for (var i = 0; i < 4; i++) {
         var randomX = game.rnd.integerInRange(20, 40);
@@ -115,9 +118,9 @@ MiniSlime.prototype.update = function () {
     game.physics.arcade.overlap(this, enemies, function (soldado, platform) {
 
     });
-    game.physics.arcade.overlap(this, platforms, function (soldado, platform) {
+    //game.physics.arcade.overlap(this, platforms, function (soldado, platform) {
 
-    });
+    //    });
 };
 
 // En cuanto al corazón Slime sea dañado, inmediatamente se pondrá en modo tryhard
@@ -149,6 +152,9 @@ CorazonSlime = function (game, x, y, damage) {
 CorazonSlime.prototype = Object.create(Phaser.Sprite.prototype);
 CorazonSlime.prototype.constructor = CorazonSlime;
 CorazonSlime.prototype.dropearMuerte = function () {
+    if(!this.alive){
+        return;
+    }
     CORAZONES_SLIME_BOSS--;
     if (CORAZONES_SLIME_BOSS === 0) {
         PARED_1.kill();
@@ -208,6 +214,9 @@ MicroSlime = function (game, x, y, damage, velocidad, vy) {
 MicroSlime.prototype = Object.create(Phaser.Sprite.prototype);
 MicroSlime.prototype.constructor = MicroSlime;
 MicroSlime.prototype.dropearMuerte = function () {
+    if(!this.alive){
+        return;
+    }
     SFX_SLIME.play();
     for (var i = 0; i < 4; i++) {
         var dirX = 1;

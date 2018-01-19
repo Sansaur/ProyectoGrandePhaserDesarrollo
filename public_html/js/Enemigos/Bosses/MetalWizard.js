@@ -90,7 +90,7 @@ Barrera = function (game, x, y, wizard) {
     // damageDealt es para saber cuanto daño hacen.
     this.damageDealt = wizard.damageDealt;
     // health es para su vida.
-    this.health = 25 + PlayerAccount.dificultad;
+    this.health = 15 + PlayerAccount.dificultad;
     this.isBoss = true;
     this.wizard = wizard;
     this.scale.x = 2;
@@ -295,7 +295,10 @@ Wizard.prototype.dropearMuerte = function () {
     game.time.events.add(5000,function(){
         limpiezaDeBoss();
     },this);
-    this.destroy();
+    this.kill();
+    game.time.events.add(5000, function () {
+        this.destroy();
+    }, this);
 };
 Wizard.prototype.update = function () {
     if(!this.alive);

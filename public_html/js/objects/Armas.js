@@ -12,7 +12,8 @@
  * 9 = Botas cohete (Gasta energía sobre el tiempo para correr más rápido)
  */
 var armaElegida = 1;
-
+var BOMBAS_ACTUALES = 0; // Un maximo al numero de bombas
+var ARRAY_BOMBAS = new Array();
 PlayerBullet = function (game, x, y, damage, velocidad, sprite, direccion, spread, direccionSpread, tiempoVida) {
     Phaser.Sprite.call(this, game, x, y, sprite);
     game.physics.enable(this, Phaser.Physics.ARCADE);
@@ -36,6 +37,9 @@ PlayerBullet = function (game, x, y, damage, velocidad, sprite, direccion, sprea
 PlayerBullet.prototype = Object.create(Phaser.Sprite.prototype);
 PlayerBullet.prototype.constructor = PlayerBullet;
 PlayerBullet.prototype.update = function () {
+    if(!this.alive){
+        return;
+    }
     if (game.time.now > this.tiempoMuerte) {
         this.kill();
     }
@@ -80,10 +84,18 @@ PlayerBomb = function (game, x, y, damage, velocidad, sprite, direccion, spread,
 
     // PARA EL COHETE
     this.acelera = acelera;
+    BOMBAS_ACTUALES++;
+    ARRAY_BOMBAS.push(this);
+    if(BOMBAS_ACTUALES > 15){
+        ARRAY_BOMBAS.shift().destroy();
+    }
 };
 PlayerBomb.prototype = Object.create(Phaser.Sprite.prototype);
 PlayerBomb.prototype.constructor = PlayerBomb;
 PlayerBomb.prototype.update = function () {
+    if(!this.alive){
+        return;
+    }
     if (game.time.now > this.tiempoMuerte) {
         this.kill();
     }
@@ -149,6 +161,9 @@ PlayerEnergy = function (game, x, y, damage, velocidad, sprite, direccion, sprea
 PlayerEnergy.prototype = Object.create(Phaser.Sprite.prototype);
 PlayerEnergy.prototype.constructor = PlayerEnergy;
 PlayerEnergy.prototype.update = function () {
+    if(!this.alive){
+        return;
+    }
     if (game.time.now > this.tiempoMuerte) {
         this.kill();
     }

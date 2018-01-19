@@ -17,7 +17,7 @@ EnemyBullet = function (game, x, y, damage, velocidad, sprite, direccion, spread
     this.damageDealt = damage || 1;
     this.tiempoMuerte = game.time.now + tiempoVida;
     this.rotation = game.physics.arcade.angleBetween(this, player);
-    enemyBullets.add(this);   
+    enemyBullets.add(this);
     this.onKilled = function () {
         this.destroy();
     }
@@ -33,11 +33,11 @@ EnemyBullet.prototype.update = function () {
     // 0 = 0
     // -3 = 0
     // -1.6 = 1000
-    
+
     var velocidadY;
     velocidadY = 250 * this.rotation;
-    if(this.rotation < -1.6){
-        velocidadY = (250 * this.rotation)/2;
+    if (this.rotation < -1.6) {
+        velocidadY = (250 * this.rotation) / 2;
     }
     this.body.velocity.y = velocidadY;
     if (game.time.now > this.tiempoMuerte) {
@@ -75,7 +75,7 @@ Soldado = function (game, x, y, damage) {
 Soldado.prototype = Object.create(Phaser.Sprite.prototype);
 Soldado.prototype.constructor = Soldado;
 Soldado.prototype.dropearMuerte = function () {
-    if(!this){
+    if (!this) {
         return;
     }
     puntos += this.damageDealt + 20 + PlayerAccount.dificultad;
@@ -83,10 +83,14 @@ Soldado.prototype.dropearMuerte = function () {
         var nuevaMunicion = new Municion(game, this.body.x, this.body.y, "bulletsAmmo", 10, 1);
     } else if (game.rnd.integerInRange(1, 100) > 50) {
         var nuevaMunicion = new Municion(game, this.body.x, this.body.y, "healthkit", 5, 4);
-    }    
+    }
     this.kill();
 }
 Soldado.prototype.update = function () {
+    if (!this.alive) {
+        this.eventoDisparo = null;
+        return;
+    }
     // MAXIMO DE VELOCIDAD PARA ESTE ENEMIGO
     if (this.body.velocity.y > 1000) {
         this.body.velocity.y = 1000;
@@ -109,6 +113,9 @@ Soldado.prototype.update = function () {
                 soldado.body.velocity.x = 15;
                 if (!soldado.eventoDisparo) {
                     soldado.eventoDisparo = game.time.events.add(900, function () {
+                        if (!soldado) {
+                            return;
+                        }
                         soldado.eventoDisparo = null;
                         if (soldado.alive) {
                             for (var i = 0; i < 3; i++) {
@@ -128,6 +135,9 @@ Soldado.prototype.update = function () {
                 soldado.body.velocity.x = -15;
                 if (!soldado.eventoDisparo) {
                     soldado.eventoDisparo = game.time.events.add(900, function () {
+                        if (!soldado) {
+                            return;
+                        }
                         soldado.eventoDisparo = null;
                         if (soldado.alive) {
                             for (var i = 0; i < 3; i++) {

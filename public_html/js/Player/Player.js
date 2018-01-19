@@ -98,8 +98,10 @@ function loadPlayer() {
 function perderVidaBala(player, bala) {
     if (bala.key === "coheteEnemigo") {
         var explosion = explosiones.getFirstExists(false);
-        explosion.reset(bala.body.x, bala.body.y);
-        explosion.play('explosion', 30, false, true);
+        if (explosion) {
+            explosion.reset(bala.body.x, bala.body.y);
+            explosion.play('explosion', 30, false, true);
+        }
     }
     perderVida(player, bala);
     if (!bala.unkillable) {

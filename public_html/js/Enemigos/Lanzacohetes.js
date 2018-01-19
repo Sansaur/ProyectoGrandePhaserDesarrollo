@@ -94,6 +94,10 @@ Lanzacohetes.prototype.dropearMuerte = function () {
     this.kill();
 };
 Lanzacohetes.prototype.update = function () {
+    if(!this.alive){
+        this.eventoDisparo = null;
+        return;
+    }
     // MAXIMO DE VELOCIDAD PARA ESTE ENEMIGO
     if (this.body.velocity.y > 1000) {
         this.body.velocity.y = 1000;
@@ -116,6 +120,9 @@ Lanzacohetes.prototype.update = function () {
                 soldado.body.velocity.x = 3;
                 if (!soldado.eventoDisparo) {
                     soldado.eventoDisparo = game.time.events.add(1300, function () {
+                        if (!soldado) {
+                            return;
+                        }
                         soldado.eventoDisparo = null;
 
                         if (soldado.alive) {
@@ -132,6 +139,9 @@ Lanzacohetes.prototype.update = function () {
                 soldado.body.velocity.x = 3;
                 if (!soldado.eventoDisparo) {
                     soldado.eventoDisparo = game.time.events.add(1300, function () {
+                        if (!soldado) {
+                            return;
+                        }
                         soldado.eventoDisparo = null;
                         if (soldado.alive) {
                             SFX_ENEMYSHOTLASER.play();

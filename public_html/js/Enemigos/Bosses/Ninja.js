@@ -150,12 +150,18 @@ Ninja.prototype.onHit = function () {
 ;
 Ninja.prototype.dropearMuerte = function () {
     NUEVAMUSICA.fadeOut(3000);
-    game.time.events.add(5000,function(){
+    game.time.events.add(4000, function () {
         limpiezaDeBoss();
-    },this);
-    this.destroy();
+    }, this);
+    this.kill();
+    game.time.events.add(5000, function () {
+        this.destroy();
+    }, this);
 }
 Ninja.prototype.update = function () {
+    if (!this.alive || !this) {
+        return;
+    }
     if (this.x < -64 || this.y > game.world.height) {
         this.body.velocity.x = 300;
         this.body.velocity.y = -200;
@@ -205,6 +211,9 @@ Ninja.prototype.update = function () {
 
     if (!this.eventoShuriken) {
         this.eventoShuriken = game.time.events.add(1800, function () {
+            if (!this.alive || !this) {
+                return;
+            }
             console.log(distanciaJugador);
             this.eventoShuriken = null;
             if (distanciaJugador > 150 && !distanciaJugador < 90) {
@@ -299,18 +308,20 @@ Ninja.prototype.update = function () {
                 soldado.body.velocity.y = -600;
                 soldado.saltos++;
                 if (player.x > soldado.x) {
-                    soldado.body.velocity.x = 500;
+                    soldado.body.velocity.x = 425;
                 } else {
-                    soldado.body.velocity.x = -500;
+                    soldado.body.velocity.x = -425;
                 }
             } else {
                 if (player.x > soldado.x) {
                     game.time.events.add(500, function () {
-                        soldado.body.velocity.x = 500;
+                        
+                        soldado.body.velocity.x = 425;
                     }, this);
                 } else {
                     game.time.events.add(500, function () {
-                        soldado.body.velocity.x = -500;
+                        
+                        soldado.body.velocity.x = -425;
                     }, this);
                 }
             }

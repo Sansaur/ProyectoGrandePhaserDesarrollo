@@ -14,17 +14,16 @@ function bossSpawn() {
         item.alpha = 0.3;
     }, this);
     enemies.forEach(function (item) {
-        var explosion = explosiones.getFirstExists(false);
-        if (explosion) {
-            SFX_EXPLOSION.play();
-            explosion.reset(item.body.x, item.body.y);
-            explosion.play('explosion', 30, false, true);
+        item.dropearMuerte();
+        if (item.alive) {
+            item.kill();
         }
-        //item.dropearMuerte();
-        item.kill();
+
     }, this);
+    
+
     var nuevaMunicion = new Municion(game, player.body.x, player.body.y - 48, "fullAmmoPack", 10, 5);
-    var eleccion = game.rnd.integerInRange(1,1);
+    var eleccion = game.rnd.integerInRange(1, 3);
     SFX_BOSS_INCOMING.play();
     if (!EVENTO_ADDED) {
         SFX_BOSS_INCOMING.onStop.add(function () {
@@ -34,7 +33,7 @@ function bossSpawn() {
                     NUEVAMUSICA.volume = 0.4;
                     NUEVAMUSICA.loop = true;
                     NUEVAMUSICA.play();
-                    var nuevoBoss = new Ninja(game, game.world.width / 2, game.world.height / 2, 10);
+                    var nuevoBoss = new Ninja(game, game.world.width / 2, game.world.height / 2, 6);
                     new Espiritu(game, nuevoBoss.x + 30, nuevoBoss.y + 30, 10, nuevoBoss, 20000);
                     new Espiritu(game, nuevoBoss.x + 30, nuevoBoss.y + 30, 10, nuevoBoss, 20000);
                     new Espiritu(game, nuevoBoss.x + 30, nuevoBoss.y + 30, 10, nuevoBoss, 20000);
@@ -116,6 +115,7 @@ function limpiezaDeBoss() {
     }
     boss = null;
     reiniciarEventoCronometro();
+    MUSICA.volume = 0.4;
     MUSICA.play();
 }
 
