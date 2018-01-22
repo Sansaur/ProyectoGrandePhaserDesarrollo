@@ -38,12 +38,14 @@ function cargarControlesJugador() {
 function controlesJugador(player) {
     //  Reset the players velocity (movement)
     player.body.velocity.x = 0;
+    // Tiempo de invencibilidad
     if (puedeControlarJugador) {
         movimientoBasico(player);
     }
     // 
-    if (!player.canGetHit) {
+    if (player.canGetHit) {
         player.alpha = 0.5;
+        player.canGetHit-=10;
     } else {
         player.alpha = 1;
     }
@@ -173,7 +175,7 @@ var loopEsquivaFinalizar;
 
 function esquivar(player) {
     SFX_SWISH.play();
-    player.canGetHit = 0;
+    player.canGetHit += 300;
     cambiaAnimacionMovimiento = 0;
     puedeControlarJugador = false;
     // Si hay ultimaDireccion es que fue a la derecha.
@@ -196,7 +198,6 @@ function esquivar(player) {
 function finEsquivar() {
     puedeControlarJugador = true;
     cambiaAnimacionMovimiento = 1;
-    player.canGetHit = 1;
     game.time.events.remove(loopEsquivaFinalizar);
 }
 
@@ -244,7 +245,7 @@ var loopSuperEsquiva;
 function superEsquivar(player) {
     ultimaHabilidadEspecial = ultimaHabilidadEspecial - 750; // Menos enfriamiento
     SFX_SWISH.play();
-    player.canGetHit = 0;
+    player.canGetHit += 300;
     cambiaAnimacionMovimiento = 0;
     puedeControlarJugador = false;
     // Si hay ultimaDireccion es que fue a la derecha.
@@ -274,7 +275,6 @@ function finSuperEsquivar() {
     player.girando = false;
     puedeControlarJugador = true;
     cambiaAnimacionMovimiento = 1;
-    player.canGetHit = 1;
     game.time.events.remove(loopSuperEsquiva);
 }
 

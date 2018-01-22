@@ -40,7 +40,9 @@ function loadPlayer() {
     player.animations.add('quieto', [0, 1, 2, 3, 4], 10, true);
 
     // Nuevas variables para el jugador
-    player.canGetHit = 1;
+    // canGetHit es un TIEMPO en milisegundos, mientras sea superior a 0 se irá disminuyendo en el update del jugador
+    // Mientras sea superior a 0 no se le puede golpear al jugador
+    player.canGetHit = 3000;
 
     // Permite rebotar sobre enemigos
     player.jumpImmunity = 1;
@@ -117,10 +119,9 @@ function controlarChoqueEnemigo(player, enemy) {
         } else {
             turbo = 250;
         }
-        player.canGetHit = 0;
+        player.canGetHit += 450;
         game.time.events.add(1000, function () {
             turbo = 0;
-            player.canGetHit = 1;
         }, this);
         player.jumpImmunity = 0;
         game.time.events.add(1500, function () {
@@ -131,7 +132,7 @@ function controlarChoqueEnemigo(player, enemy) {
     }
 }
 function perderVida(player, enemy) {
-    if (player.canGetHit) {
+    if (!player.canGetHit) {
         SFX_EXPLOSION.play();
         health -= enemy.damageDealt;
         actualizarVida();
@@ -141,16 +142,12 @@ function perderVida(player, enemy) {
         } else {
             game.add.tween(player).to({x: player.x - 100}, 200, "Linear", true);
         }
-        player.canGetHit = 0;
+        player.canGetHit += 450;
         game.time.events.add(300, finAnimacion, this);
-        game.time.events.add(1000, finInvulnerabilidad, this);
     }
 }
 function finAnimacion() {
     puedeControlarJugador = true;
-}
-function finInvulnerabilidad() {
-    player.canGetHit = 1;
 }
 
 function actualizarVida() {
