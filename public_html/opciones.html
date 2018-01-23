@@ -25,7 +25,8 @@ and open the template in the editor.
                                 $('#MEM').val(999);
                                 $('#MNI').val(999);
                                 $('#MNM').val(999);
-                                $('#TPB').val(600);
+                                $('#TPB').val(60);
+                                $('#CBN').val(1);
                                 break;
                             case 1:
                                 $('#handicap').val(1);
@@ -35,7 +36,7 @@ and open the template in the editor.
                                 $('#MEM').val(50);
                                 $('#MNI').val(25);
                                 $('#MNM').val(100);
-                                $('#TPB').val(180);
+                                $('#CBN').val(2);
                                 break;
                             case 2:
                                 $('#handicap').val(3);
@@ -45,7 +46,7 @@ and open the template in the editor.
                                 $('#MEM').val(30);
                                 $('#MNI').val(25);
                                 $('#MNM').val(90);
-                                $('#TPB').val(120);
+                                $('#CBN').val(2);
                                 break;
                             case 3:
                                 $('#handicap').val(10);
@@ -55,7 +56,7 @@ and open the template in the editor.
                                 $('#MEM').val(30);
                                 $('#MNI').val(25);
                                 $('#MNM').val(90);
-                                $('#TPB').val(60);
+                                $('#CBN').val(3);
                                 break;
                         }
                     });
@@ -134,8 +135,8 @@ and open the template in the editor.
                 actualizarInformacionPersonaje();
             }
             function rellenarCuenta(cuentaActual) {
-                var MI = parseInt($('#MBI').val());
-                var MM = parseInt($('#MBM').val());
+                var MI = parseInt($('#MBI').val()) || 0;
+                var MM = parseInt($('#MBM').val()) || 0;
                 if (MM > 999) {
                     MM = 999;
                 }
@@ -145,8 +146,8 @@ and open the template in the editor.
                 cuentaActual.inicialMunicionBalas = (MI < 0) ? 0 : MI;
                 cuentaActual.maximoMunicionBalas = (MM < 0) ? 0 : MM;
 
-                MI = parseInt($('#MEI').val());
-                MM = parseInt($('#MEM').val());
+                MI = parseInt($('#MEI').val()) || 0;
+                MM = parseInt($('#MEM').val()) || 0;
                 if (MM > 999) {
                     MM = 999;
                 }
@@ -156,8 +157,8 @@ and open the template in the editor.
                 cuentaActual.inicialMunicionExplosiva = (MI < 0) ? 0 : MI;
                 cuentaActual.maximoMunicionExplosiva = (MM < 0) ? 0 : MM;
 
-                MI = parseInt($('#MNI').val());
-                MM = parseInt($('#MNM').val());
+                MI = parseInt($('#MNI').val()) || 0;
+                MM = parseInt($('#MNM').val()) || 0;
                 if (MM > 999) {
                     MM = 999;
                 }
@@ -169,9 +170,9 @@ and open the template in the editor.
 
                 cuentaActual.mapa = $('#mapa').val();
                 cuentaActual.skin = $('#skin').val();
-                cuentaActual.dificultad = parseInt($('#handicap').val());
-                cuentaActual.tiempoParaElBoss = parseInt($('#TPB').val());
-                cuentaActual.maxBosses = parseInt($('#CBN').val());
+                cuentaActual.dificultad = parseInt($('#handicap').val()) || 0;
+                cuentaActual.tiempoParaElBoss = parseInt($('#TPB').val())  || 1;
+                cuentaActual.maxBosses = parseInt($('#CBN').val())  || 0;
                 console.log($('#HB').prop('checked'));
                 if ($('#HB').prop('checked')) {
                     cuentaActual.hayBoss = true;
@@ -297,6 +298,15 @@ and open the template in the editor.
                 </p>
                 <p>
                     Flecha arriba = Saltar
+                </p>
+                <p>
+                    Flecha abajo = Dejarse caer de plataforma
+                </p>
+                <p>
+                    Se pueden atravesar los bordes del mapa
+                </p>
+                <p>
+                    ¿Hay boss? y ¿Caza boss? Son opciones para poder ganar el juego, si no se otorgan, no se podrá ganar.
                 </p>
             </div>
         </div>
