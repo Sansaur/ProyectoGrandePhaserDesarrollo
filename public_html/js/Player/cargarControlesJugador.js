@@ -43,12 +43,16 @@ function controlesJugador(player) {
         movimientoBasico(player);
     }
     // 
-    if (player.canGetHit) {
-        player.alpha = 0.5;
-        player.canGetHit-=10;
-    } else {
-        player.alpha = 1;
+    console.log(INICIANDO);
+    if (!INICIANDO) {
+        if (player.canGetHit) {
+            player.alpha = 0.5;
+            player.canGetHit -= 10;
+        } else {
+            player.alpha = 1;
+        }
     }
+
     // MAXIMO DE VELOCIDAD PARA JUGADOR
     if (player.body.velocity.y > 1000) {
         player.body.velocity.y = 1000;
@@ -59,7 +63,7 @@ function elegirArma(numero) {
     SFX_EQUIPAR.play();
 }
 function movimientoBasico() {
-    if(!player.girando){
+    if (!player.girando) {
         player.angle = 0;
     }
     if (TECLA_1.isDown) {
@@ -241,7 +245,7 @@ function habilidadEspecial() {
             break;
         case "Riot":
             // Se ve en "Construcciones.js"
-            if(ESCUDO){
+            if (ESCUDO) {
                 ESCUDO.kill();
             }
             ESCUDO = new Escudo(game);

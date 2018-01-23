@@ -12,8 +12,10 @@
  * if (animName(chopper)=='hover') chopper.play('turnLeft');
  function animName(obj){ return obj.animations.currentAnim.name;}
  */
+// Poder controlar el Alpha del jugador, mirar cargarControlesJugador.js
+INICIANDO = true;
 BeamIn = function (game) {
-    Phaser.Sprite.call(this, game, player.body.x, player.body.y, "beam_in");
+    Phaser.Sprite.call(this, game, player.body.x-32, player.body.y, "beam_in");
     game.physics.enable(this, Phaser.Physics.ARCADE);
     this.collideWorldBounds = false;
     this.enableBody = false;
@@ -42,18 +44,20 @@ function loadPlayer() {
     game.time.events.add(50, function () {
         console.warn("CREANDO EL BEAMIN");
         puedeControlarJugador = false;
-        player.alpha = 0;
         var NEWBEAMIN = new BeamIn(game);
         NEWBEAMIN.animacion.play();
-        console.warn(NEWBEAMIN);
-        console.warn(NEWBEAMIN.animacion);
+        player.alpha = 0;
+        //console.warn(NEWBEAMIN);
+        //console.warn(NEWBEAMIN.animacion);
         NEWBEAMIN.animacion.onComplete.add(function () {
-            console.warn("BEAMIN TERMINA");
+            INICIANDO = false;
             SFX_INTRO.play();
-            player.alpha = 1;
             NEWBEAMIN.kill();
+            player.alpha = 1;
             //player.revive();
             puedeControlarJugador = true;
+                        console.warn("BEAMIN TERMINA "+INICIANDO);
+
         });
     })
     player = game.add.sprite(game.world.width / 2, game.world.height - 32, 'player');
@@ -77,7 +81,7 @@ function loadPlayer() {
     // Nuevas variables para el jugador
     // canGetHit es un TIEMPO en milisegundos, mientras sea superior a 0 se irá disminuyendo en el update del jugador
     // Mientras sea superior a 0 no se le puede golpear al jugador
-    player.canGetHit = 3000;
+    //player.canGetHit = 3000;
 
     // Permite rebotar sobre enemigos
     player.jumpImmunity = 1;
