@@ -20,7 +20,7 @@ Caballero = function (game, x, y, damage) {
     // damageDealt es para saber cuanto daño hacen.
     this.damageDealt = damage + PlayerAccount.dificultad || 1 + PlayerAccount.dificultad;
     // health es para su vida.
-    this.health = 10 + PlayerAccount.dificultad;
+    this.health = 9 + PlayerAccount.dificultad;
     this.turboRandom = game.rnd.integerInRange(30, 90);
     this.events.onKilled.add(function (enemigo) {
     }, this);
@@ -32,7 +32,7 @@ Caballero.prototype.dropearMuerte = function () {
         return;
     }
     puntos += this.damageDealt + 100 + PlayerAccount.dificultad;
-    var nuevaMunicion = new Municion(game, this.body.x, this.body.y, "healthkit", 5, 4);
+    var nuevaMunicion = new Municion(game, this.body.x, this.body.y, "healthkit",  10-PlayerAccount.dificultad, 4);
     this.kill();
 }
 Caballero.prototype.update = function () {
@@ -45,7 +45,7 @@ Caballero.prototype.update = function () {
     }
     // Persiguen al jugador atravesando
     if (Phaser.Math.distance(player.body.x, player.body.y, this.body.x, this.body.y) < 200) {
-        game.physics.arcade.moveToObject(this, player, 150 + this.turboRandom);
+        game.physics.arcade.moveToObject(this, player, 125 + this.turboRandom);
     } else {
         game.physics.arcade.moveToObject(this, player, 30);
     }

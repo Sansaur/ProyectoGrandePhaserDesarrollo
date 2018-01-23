@@ -1,6 +1,13 @@
 /*
  * La clave "PartidaGuardada" es MUY IMPORTANTE
  * Una clave "TodasPartidas" que contiene un array con todas las partidas guardadas
+ * 
+ * La dificultad se usa para:
+ * 
+ * 1) Frecuencia de spawn de enemigos
+ * 2) Vida y daño de los enemigos
+ * 3) Algunos stats adicionales de los enemigos (El turbo de los caballeros)
+ * 4) Cuanta vidan dan los healthpacks
  */
 var datosCuenta = JSON.parse(localStorage.getItem('CuentaActual'));
 var PlayerAccount = {

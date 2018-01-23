@@ -36,7 +36,7 @@ Slime.prototype.dropearMuerte = function () {
     if (game.rnd.integerInRange(1, 100) > 50) {
         var nuevaMunicion = new Municion(game, this.body.x, this.body.y, "bulletsAmmo", 10, 1);
     } else if (game.rnd.integerInRange(1, 100) > 50) {
-        var nuevaMunicion = new Municion(game, this.body.x, this.body.y, "healthkit", 5, 4);
+        var nuevaMunicion = new Municion(game, this.body.x, this.body.y, "healthkit",  10-PlayerAccount.dificultad,4);
     }
     this.kill();
 }

@@ -15,11 +15,11 @@
 // Poder controlar el Alpha del jugador, mirar cargarControlesJugador.js
 INICIANDO = true;
 BeamIn = function (game) {
-    Phaser.Sprite.call(this, game, player.body.x-32, player.body.y, "beam_in");
+    Phaser.Sprite.call(this, game, player.body.x, player.body.y, "beam_in");
     game.physics.enable(this, Phaser.Physics.ARCADE);
     this.collideWorldBounds = false;
     this.enableBody = false;
-    this.animacion = this.animations.add('lanzamiento', [0, 1, 2, 3, 4, 5], 1, false);
+    this.animacion = this.animations.add('lanzamiento', [0, 1, 2, 3, 4, 5], 4, false);
     this.body.gravity.y = 0;
     this.body.velocity.x = 0;
     this.body.bounce.y = 0;// 0.7 + Math.random() * 0.2;

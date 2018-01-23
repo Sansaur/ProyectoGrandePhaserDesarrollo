@@ -23,7 +23,7 @@ SpawnEnemigo.prototype.update = function () {
     this.body.velocity.y = 0;
 
     if (!this.eventoSpawn) {
-        var tiempo = 8000 - 1000*NUMERO_BOSSES_ASESINADOS;
+        var tiempo = (8000-PlayerAccount.dificultad*250) - 1000*NUMERO_BOSSES_ASESINADOS;
         if(tiempo < 1000){
             tiempo = 1000;
         }

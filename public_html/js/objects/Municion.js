@@ -48,7 +48,7 @@ Municion.prototype.update = function () {
             case 1: municionBalasActual += caja.cantidad;if(municionBalasActual>municionBalasMax){municionBalasActual=municionBalasMax;};break;
             case 2: municionExpActual += caja.cantidad;if(municionExpActual>municionExpMax){municionExpActual=municionExpMax;};break;
             case 3: municionEnergiaActual += caja.cantidad;if(municionEnergiaActual>municionEnergiaMax){municionEnergiaActual=municionEnergiaMax;};break;
-            case 4: if(health===100){return;}health += caja.cantidad;if(health>100){health=100;};actualizarVida();break;
+            case 4: if(health===100){return;};if(caja.cantidad <= 4){caja.cantidad=4;};health += caja.cantidad;if(health>100){health=100;};actualizarVida();break;
             case 5: health=100;actualizarVida();municionBalasActual=municionBalasMax;municionExpActual=municionExpMax;municionEnergiaActual=municionEnergiaMax;SFX_THREAT.play();break;
         }
         SFX_AMMOPICKUP.play();
