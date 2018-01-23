@@ -16,23 +16,25 @@
             <file>file:/C:/Users/Sansaur/Documents/NetBeansProjects/ProyectoGrandePhaser/public_html/js/Enemigos/Bosses/common.js</file>
         </group>
         <group name="DEW">
-            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/css/form.css</file>
-            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/index.html</file>
-            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/js/Player/cargarControlesJugador.js</file>
-            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/js/objects/cargarMapa.js</file>
-            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/js/carga.js</file>
-            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/js/Enemigos/Bosses/common.js</file>
+            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/js/Player/Player.js</file>
             <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/js/Enemigos/SpawnEnemigo.js</file>
             <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/js/Enemigos/Caballero.js</file>
-            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/opciones.html</file>
-            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/js/Player/Player.js</file>
-            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/js/objects/Municion.js</file>
-            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/registro.html</file>
-            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/js/Formularios/Comprobaciones.js</file>
-            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/js/Enemigos/Soldado.js</file>
+            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/index.html</file>
             <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/login.html</file>
-            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/js/Enemigos/Goon.js</file>
+            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/js/objects/Municion.js</file>
+            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/js/Enemigos/Soldado.js</file>
+            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/js/Player/cargarControlesJugador.js</file>
+            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/js/Enemigos/Bosses/Glitch.js</file>
+            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/opciones.html</file>
+            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/css/form.css</file>
+            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/js/carga.js</file>
+            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/js/Enemigos/Bosses/common.js</file>
+            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/js/Formularios/Comprobaciones.js</file>
             <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/js/objects/PlayerAccount.js</file>
+            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/js/objects/cargarMapa.js</file>
+            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/js/Enemigos/Goon.js</file>
+            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/registro.html</file>
+            <file>file:/C:/Users/alumno/Documents/NetBeansProjectsr/ProyectoGrandePhaserDesarrollo/public_html/juegoPhaser.html</file>
         </group>
     </open-files>
 </project-private>
