@@ -228,11 +228,11 @@ function crearBarraVidaJefe(){
     actualizarBarraVidaJefe();
 }
 function actualizarBarraVidaJefe(){
-    BARRA_VIDA_JEFE.forEach(function (item) {
-        item.kill();
-    });
-    for (var i = 0; i < boss.health; i++) {
-        var nuevoHit = game.add.tileSprite(0 + i * 10, 560, 10, 10, 'hpBAR');
-        BARRA_VIDA_JEFE.add(nuevoHit);
-    }
+//    BARRA_VIDA_JEFE.forEach(function (item) {
+//        item.kill();
+//    });
+//    for (var i = 0; i < boss.health; i++) {
+//        var nuevoHit = game.add.tileSprite(0 + i * 10, 560, 10, 10, 'hpBAR');
+//        BARRA_VIDA_JEFE.add(nuevoHit);
+//    }
 }
