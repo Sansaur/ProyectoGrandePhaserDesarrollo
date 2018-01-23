@@ -109,6 +109,9 @@ function loadAssets() {
     game.load.audio('lanzamiento', 'assets/sonido/WIZARD_LANZAMIENTO.ogg');
     game.load.audio('meteorito', 'assets/sonido/meteorito.ogg');
     game.load.audio('magic_trap', 'assets/sonido/magic_trap.ogg');
+    game.load.audio('glitch_fall', 'assets/sonido/GLITCH_FALL.ogg');
+    game.load.audio('glitch_hit', 'assets/sonido/GLITCH_HIT.ogg');
+    game.load.audio('glitch_fire', 'assets/sonido/GLITCH_FIRE.ogg');
 
     game.load.audio('enemyShotLaser', 'assets/sonido/enemyShotLaser.wav');
     game.load.audio('enemyShot', 'assets/sonido/enemyShot.wav');
@@ -176,6 +179,10 @@ function loadAssets() {
     game.load.image('meteorito', 'assets/img/meteorito.png');
     game.load.image('magic_missile', 'assets/img/magic_missile.png');
     game.load.image('probe', 'assets/img/probe.png');
+    // Glitch
+    game.load.spritesheet('glitch', 'assets/bosses/Glitch.png', 48, 48);
+    game.load.spritesheet('fuego', 'assets/img/fuego_Glitch.png',100,48);
+    game.load.image('pedrolo', 'assets/img/piedra.png');
 
     game.load.image('enemyBullet', 'assets/img/bala.png');
     game.load.image('tiroslime', 'assets/img/tiroslime.png');
@@ -291,6 +298,11 @@ function create() {
     SFX_WIZARD_LANZAMIENTO = game.add.audio('lanzamiento');
     SFX_WIZARD_METEORITO = game.add.audio('meteorito');
     SFX_WIZARD_MAGIC_TRAP = game.add.audio('magic_trap');
+    
+    SFX_GLITCH_FALL = game.add.audio('glitch_fall');
+    SFX_GLITCH_FALL.loop = true;
+    SFX_GLITCH_HIT = game.add.audio('glitch_hit');
+    SFX_GLITCH_FIRE = game.add.audio('glitch_fire');
 
 
     // ENEMIGOS
