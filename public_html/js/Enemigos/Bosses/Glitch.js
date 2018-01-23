@@ -96,6 +96,7 @@ Glitch = function (game, x, y, damage) {
 Glitch.prototype = Object.create(Phaser.Sprite.prototype);
 Glitch.prototype.constructor = Glitch;
 Glitch.prototype.onHit = function () {
+    actualizarBarraVidaJefe();
     if (this.health % 10 === 0) {
         this.slashes = true;
     }

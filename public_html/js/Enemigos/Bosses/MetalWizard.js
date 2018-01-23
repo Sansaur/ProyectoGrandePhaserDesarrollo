@@ -288,7 +288,8 @@ Wizard = function (game, x, y, damage) {
 Wizard.prototype = Object.create(Phaser.Sprite.prototype);
 Wizard.prototype.constructor = Wizard;
 Wizard.prototype.onHit = function () {
-    //console.warn("A");
+    
+    actualizarBarraVidaJefe();
 };
 Wizard.prototype.dropearMuerte = function () {
     NUEVAMUSICA.fadeOut(3000);

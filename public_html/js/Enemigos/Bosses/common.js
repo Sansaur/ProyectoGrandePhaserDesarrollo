@@ -94,6 +94,8 @@ function bossSpawn() {
                     PARED_2 = crearPared(game.world.width - 64, game.world.height - 700, 64, game.world.height, 0, "slimeboss");
                     break;
             }
+                    crearBarraVidaJefe();
+
         }, this);
         EVENTO_ADDED = true;
     }
@@ -216,4 +218,21 @@ function guardarFinal() {
         }
     }
     localStorage.setItem('Cuentas', JSON.stringify(CuentasSacadasLocalStorage));
+}
+
+var BARRA_VIDA_JEFE;
+function crearBarraVidaJefe(){
+    BARRA_VIDA_JEFE = game.add.group();
+    BARRA_VIDA_JEFE.fixedToCamera = true;
+    BARRA_VIDA_JEFE.cameraOffset.setTo(10, 760);
+    actualizarBarraVidaJefe();
+}
+function actualizarBarraVidaJefe(){
+    BARRA_VIDA_JEFE.forEach(function (item) {
+        item.kill();
+    });
+    for (var i = 0; i < boss.health; i++) {
+        var nuevoHit = game.add.tileSprite(0 + i * 10, 560, 10, 10, 'hpBAR');
+        BARRA_VIDA_JEFE.add(nuevoHit);
+    }
 }

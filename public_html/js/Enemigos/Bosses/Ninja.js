@@ -145,7 +145,8 @@ Ninja = function (game, x, y, damage) {
 Ninja.prototype = Object.create(Phaser.Sprite.prototype);
 Ninja.prototype.constructor = Ninja;
 Ninja.prototype.onHit = function () {
-    console.warn("A");
+    
+    actualizarBarraVidaJefe();
 };
 ;
 Ninja.prototype.dropearMuerte = function () {
