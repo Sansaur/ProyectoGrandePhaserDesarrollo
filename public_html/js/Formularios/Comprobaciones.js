@@ -11,6 +11,8 @@ var CuentaNueva = {
     personajeRecord: "Security",
     tiempoParaElBoss: 300,
     hayBoss: true,
+    cazaBoss: true,
+    maxBosses: 3,
 
     inicialMunicionBalas: 300,
     inicialMunicionExplosiva: 25,

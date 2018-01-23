@@ -20,11 +20,11 @@ function bossSpawn() {
         }
 
     }, this);
-    
+
 
     var nuevaMunicion = new Municion(game, player.body.x, player.body.y - 48, "fullAmmoPack", 10, 5);
     // RECORDAR CAMBIAR ESTO
-    var eleccion = game.rnd.integerInRange(2, 2);
+    var eleccion = game.rnd.integerInRange(1, 4);
     SFX_BOSS_INCOMING.play();
     if (!EVENTO_ADDED) {
         SFX_BOSS_INCOMING.onStop.add(function () {
@@ -125,6 +125,9 @@ function limpiezaDeBoss() {
     reiniciarEventoCronometro();
     MUSICA.volume = 0.4;
     MUSICA.play();
+    if (NUMERO_BOSSES_ASESINADOS === PlayerAccount.maxBosses) {
+        victoria();
+    }
 }
 
 function reiniciarEventoCronometro() {
@@ -136,4 +139,60 @@ function reiniciarEventoCronometro() {
             bossSpawn();
         }
     });
+}
+
+function victoria() {
+    game.paused = true;
+    imagenFondo.tint = 0x444444;
+    explosiones.forEach(function (item) {
+        item.tint = 0x444444;
+    });
+    platforms.forEach(function (item) {
+        item.tint = 0x444444;
+    });
+    enemies.forEach(function (item) {
+        item.tint = 0x444444;
+    });
+    enemyBullets.forEach(function (item) {
+        item.tint = 0x444444;
+    });
+    portales.forEach(function (item) {
+        item.tint = 0x444444;
+    });
+    ammoBoxes.forEach(function (item) {
+        item.tint = 0x444444;
+    });
+    suaves.forEach(function (item) {
+        item.tint = 0x444444;
+    });
+    /*
+     * Guardamos antes del final, por si aca
+     */
+    guardarFinal();
+    var textolino = this.game.add.text(game.camera.x, game.camera.y + 200, "¡¡TOTAL VICTORY!!", {font: "32px pressStart", fill: "#ffffff", stroke: "black", strokeThickness: 2});
+    textolino.fixedToCamera = true;
+    textolino.cameraOffset.setTo(20, 200);
+    var textosote = this.game.add.text(game.camera.x + 150, game.camera.y + 300, "Haz click para salir", {font: "18px pressStart", fill: "#ffffff", stroke: "black", strokeThickness: 2});
+    textosote.fixedToCamera = true;
+    textosote.cameraOffset.setTo(150, 300);
+    game.input.onDown.add(function (evento) {
+        location.replace('opciones.html');
+    }, self);
+}
+
+function guardarFinal() {
+    var cuentaActual = JSON.parse(localStorage.getItem('CuentaActual'));
+    if (cuentaActual.record < puntos) {
+        cuentaActual.record = puntos;
+        cuentaActual.handicapRecord = PlayerAccount.dificultad;
+        cuentaActual.personajeRecord = PlayerAccount.skin;
+    }
+    localStorage.setItem('CuentaActual', JSON.stringify(cuentaActual));
+    var CuentasSacadasLocalStorage = JSON.parse(localStorage.getItem('Cuentas'));
+    for (var item in CuentasSacadasLocalStorage) {
+        if (CuentasSacadasLocalStorage[item].nombre === cuentaActual.nombre) {
+            CuentasSacadasLocalStorage[item] = cuentaActual;
+        }
+    }
+    localStorage.setItem('Cuentas', JSON.stringify(CuentasSacadasLocalStorage));
 }

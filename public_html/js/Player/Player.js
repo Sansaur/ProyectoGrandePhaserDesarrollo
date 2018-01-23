@@ -12,14 +12,49 @@
  * if (animName(chopper)=='hover') chopper.play('turnLeft');
  function animName(obj){ return obj.animations.currentAnim.name;}
  */
+BeamIn = function (game) {
+    Phaser.Sprite.call(this, game, player.body.x, player.body.y, "beam_in");
+    game.physics.enable(this, Phaser.Physics.ARCADE);
+    this.collideWorldBounds = false;
+    this.enableBody = false;
+    this.animacion = this.animations.add('lanzamiento', [0, 1, 2, 3, 4, 5], 1, false);
+    this.body.gravity.y = 0;
+    this.body.velocity.x = 0;
+    this.body.bounce.y = 0;// 0.7 + Math.random() * 0.2;
+    this.body.bounce.x = 0;
+    this.body.collideWorldBounds = false;
+    this.anchor.setTo(0.5, 0.5);
+    // damageDealt es para saber cuanto daño hacen.
+    //enemyBullets.add(this);
+    this.game.add.existing(this);
+    this.alpha = 1;
+};
+BeamIn.prototype = Object.create(Phaser.Sprite.prototype);
+BeamIn.prototype.constructor = BeamIn;
+BeamIn.prototype.update = function () {
+
+};
+
 function loadPlayer() {
-    game.time.events.add(2000, function () {
-        SFX_INTRO.play();
-        player.revive();
-        puedeControlarJugador = true;
-    })
-    game.time.events.add(40, function () {
-        player.kill();
+    //game.time.events.add(2000, function () {
+    //
+    //})
+    game.time.events.add(50, function () {
+        console.warn("CREANDO EL BEAMIN");
+        puedeControlarJugador = false;
+        player.alpha = 0;
+        var NEWBEAMIN = new BeamIn(game);
+        NEWBEAMIN.animacion.play();
+        console.warn(NEWBEAMIN);
+        console.warn(NEWBEAMIN.animacion);
+        NEWBEAMIN.animacion.onComplete.add(function () {
+            console.warn("BEAMIN TERMINA");
+            SFX_INTRO.play();
+            player.alpha = 1;
+            NEWBEAMIN.kill();
+            //player.revive();
+            puedeControlarJugador = true;
+        });
     })
     player = game.add.sprite(game.world.width / 2, game.world.height - 32, 'player');
     player.anchor.setTo(0.5, 0.5);
@@ -207,22 +242,8 @@ function actualizarVida() {
                 var textosote = this.game.add.text(game.camera.x + 150, game.camera.y + 300, "Haz click para salir", {font: "18px pressStart", fill: "#ffffff", stroke: "black", strokeThickness: 2});
                 textosote.fixedToCamera = true;
                 textosote.cameraOffset.setTo(150, 300);
+                guardarFinal();
                 game.input.onDown.add(function (evento) {
-
-                    var cuentaActual = JSON.parse(localStorage.getItem('CuentaActual'));
-                    if (cuentaActual.record < puntos) {
-                        cuentaActual.record = puntos;
-                        cuentaActual.handicapRecord = PlayerAccount.dificultad;
-                        cuentaActual.personajeRecord = PlayerAccount.skin;
-                    }
-                    localStorage.setItem('CuentaActual', JSON.stringify(cuentaActual));
-                    var CuentasSacadasLocalStorage = JSON.parse(localStorage.getItem('Cuentas'));
-                    for (var item in CuentasSacadasLocalStorage) {
-                        if (CuentasSacadasLocalStorage[item].nombre === cuentaActual.nombre) {
-                            CuentasSacadasLocalStorage[item] = cuentaActual;
-                        }
-                    }
-                    localStorage.setItem('Cuentas', JSON.stringify(CuentasSacadasLocalStorage));
                     location.replace('opciones.html');
                 }, self);
             }

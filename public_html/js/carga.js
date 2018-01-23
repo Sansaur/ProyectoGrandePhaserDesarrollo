@@ -66,6 +66,7 @@ function loadAssets() {
 
     // Efectos
     game.load.spritesheet('explosion', 'assets/effects/explosion.png', 128, 128);
+    game.load.spritesheet('beam_in', 'assets/playerSprites/Beam_in.png', 32, 32);
 
     // alias, path, x, y dimension
     game.load.spritesheet('player', 'assets/playerSprites/' + PlayerAccount.skin + '.png', 32, 32);

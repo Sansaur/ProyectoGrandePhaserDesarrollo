@@ -91,6 +91,7 @@ and open the template in the editor.
                 $('#MNI').val(cuentaActual.inicialMunicionEnergia);
                 $('#MNM').val(cuentaActual.maximoMunicionEnergia);
                 $('#TPB').val(cuentaActual.tiempoParaElBoss);
+                $('#CBN').val(cuentaActual.maxBosses);
                 //document.getElementById('handicap').value = cuentaActual.dificultad;
                 //document.getElementById('MBI').value = cuentaActual.inicialMunicionBalas;
                 //document.getElementById('MBM').value = cuentaActual.maximoMunicionBalas;
@@ -101,6 +102,9 @@ and open the template in the editor.
                 //document.getElementById('TPB').value = cuentaActual.tiempoParaElBoss;
                 if (cuentaActual.hayBoss) {
                     $('#HB').prop('checked', true);
+                }
+                if (cuentaActual.cazaBoss) {
+                    $('#CB').prop('checked', true);
                 }
                 $('#skin').val(cuentaActual.skin);
                 $('#mapa').val(cuentaActual.mapa);
@@ -167,11 +171,17 @@ and open the template in the editor.
                 cuentaActual.skin = $('#skin').val();
                 cuentaActual.dificultad = parseInt($('#handicap').val());
                 cuentaActual.tiempoParaElBoss = parseInt($('#TPB').val());
+                cuentaActual.maxBosses = parseInt($('#CBN').val());
                 console.log($('#HB').prop('checked'));
                 if ($('#HB').prop('checked')) {
                     cuentaActual.hayBoss = true;
                 } else {
                     cuentaActual.hayBoss = false;
+                }
+                if ($('#CB').prop('checked')) {
+                    cuentaActual.cazaBoss = true;
+                } else {
+                    cuentaActual.cazaBoss = false;
                 }
                 return cuentaActual;
             }
@@ -220,7 +230,6 @@ and open the template in the editor.
                         break;
                 }
             }
-
         </script>
         <link rel="stylesheet" href="css/form.css" />
     </head>
@@ -255,6 +264,8 @@ and open the template in the editor.
                 </label>
                 <label>Tiempo para el boss<input type="number" min="0" max="999" id="TPB"></label>
                 <label>¿Hay Boss?<input type="checkbox" id="HB"></label>
+                <label>Numero de jefes a cazar<input type="number" min="0" max="999" id="CBN"></label>
+                <label>¿Caza de bosses?<input type="checkbox" id="CB"></label>
                 <p id="informacionPersonaje"></p>
                 <button onclick="finalizarFormulario()" type="button">¡INICIAR!</button>
                 <div id="setupsDificultad">

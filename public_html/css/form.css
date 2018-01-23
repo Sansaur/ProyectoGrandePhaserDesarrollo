@@ -154,6 +154,30 @@ h1{
 #setupsDificultad button{
     padding: 5px;
 }
+#opcionesDeJuego input[type=checkbox]{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    text-align: center;
+    width: 15px;
+    height: 15px;
+    background-color: #CADC9F;
+    border: 2px solid #0f380f;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+    color: #99a1a7;
+}
+#opcionesDeJuego input[type=checkbox]:checked{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    text-align: center;
+    width: 15px;
+    height: 15px;
+    background-color: #306230;
+    border: 2px solid #0f380f;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+    color: #99a1a7;
+}
 /*
 *   Opciones y Récords
 */
