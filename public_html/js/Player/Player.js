@@ -19,7 +19,7 @@ BeamIn = function (game) {
     game.physics.enable(this, Phaser.Physics.ARCADE);
     this.collideWorldBounds = false;
     this.enableBody = false;
-    this.animacion = this.animations.add('lanzamiento', [0, 1, 2, 3, 4, 5], 4, false);
+    this.animacion = this.animations.add('lanzamiento', [0, 1, 2, 3, 4, 5], 8, false);
     this.body.gravity.y = 0;
     this.body.velocity.x = 0;
     this.body.bounce.y = 0;// 0.7 + Math.random() * 0.2;
