@@ -91,7 +91,7 @@ function movimientoBasico() {
         cambiaAnimacionMovimiento = true;
     }
     if (TECLA_Z.isDown) {
-        if (game.time.now > ultimaEsquiva + 1500) {
+        if (game.time.now > ultimaEsquiva + 2000) {
             ultimaEsquiva = game.time.now;
             esquivar(player);
         }
@@ -181,12 +181,12 @@ function esquivar(player) {
     // Si hay ultimaDireccion es que fue a la derecha.
     if (ultimaDireccion > 0) {
         loopEsquivaFinalizar = game.time.events.loop(1, function () {
-            player.body.velocity.x = 600;
+            player.body.velocity.x = 630;
             player.animations.play('esquivar');
         }, this);
     } else {
         loopEsquivaFinalizar = game.time.events.loop(1, function () {
-            player.body.velocity.x = -600;
+            player.body.velocity.x = -630;
             player.animations.play('esquivar');
         }, this);
     }
@@ -213,6 +213,7 @@ function habilidadEspecial() {
                 playerEfectoCohete.emitParticle();
             }, this);
             game.time.events.add(300, finCohete, this);
+            ultimaHabilidadEspecial = ultimaHabilidadEspecial - 250; // un poco menos de enfriamiento
             break;
         case "TimeTrooper":
             if (copia) {

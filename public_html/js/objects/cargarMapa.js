@@ -90,7 +90,7 @@ function cargarMapa(mapa) {
             crearPlataforma(300, game.world.height - 1080, (game.world.width - 800) / 2, 32);
             crearPlataforma(800, game.world.height - 1080, (game.world.width - 800) / 2, 32);
 
-            portales.add(new SpawnEnemigo(game, game.world.width - 75 - 32, game.world.height - 510 -32, 75, 32));
+            portales.add(new SpawnEnemigo(game, game.world.width - 75 - 32, game.world.height - 510 - 32, 75, 32));
             portales.add(new SpawnEnemigo(game, 600 + (game.world.width - 1400) / 4, game.world.height - 600 - 32));
             portales.add(new SpawnEnemigo(game, 600 + (game.world.width - 1400) / 4, game.world.height - 600 - 32));
             portales.add(new SpawnEnemigo(game, 800 + (game.world.width - 1400) / 4, game.world.height - 600 - 32));
@@ -147,6 +147,15 @@ function cargarMapa(mapa) {
             nuevoSuelo = new PlataformaHorizontal(game, 150, game.world.height - 1100, 200, 32);
             platforms.add(nuevoSuelo);
 
+            portales.add(new SpawnEnemigo(game, 200 + 32 + 75, game.world.height - 130 - 32, 150, 32));
+            portales.add(new SpawnEnemigo(game, 200 + 32 + 75, game.world.height - 730 - 32, 150, 32));
+            portales.add(new SpawnEnemigo(game, 550 + 32 + 75, game.world.height - 130 - 32, 150, 32));
+            portales.add(new SpawnEnemigo(game, 550 + 32 + 75, game.world.height - 730 - 32, 150, 32));
+            portales.add(new SpawnEnemigo(game, 900 + 32 + 75, game.world.height - 130 - 32, 150, 32));
+            portales.add(new SpawnEnemigo(game, 900 + 32 + 75, game.world.height - 730 - 32, 150, 32));
+            portales.add(new SpawnEnemigo(game, 1250 + 32 + 75, game.world.height - 130 - 32, 150, 32));
+            portales.add(new SpawnEnemigo(game, 1250 + 32 + 75, game.world.height - 730 - 32, 150, 32));
+
 
             nuevoSuelo = game.add.tileSprite(0, -game.world.height + 32, game.world.width, 32, 'ground');
             platforms.add(nuevoSuelo);
@@ -157,23 +166,30 @@ function cargarMapa(mapa) {
                     crearPlataforma(0, i * 100, 300, 32);
                     crearPlataforma(game.world.width / 2 - 150, i * 100, 300, 32);
                     crearPlataforma(game.world.width - 300, i * 100, 300, 32);
+                    portales.add(new SpawnEnemigo(game, game.world.width - 150, i * 100 - 32, 300, 32));
                 } else {
                     crearPlataforma(450, i * 100, 90, 32);
                     crearPlataforma(game.world.width / 2 - 45, i * 100, 90, 32);
                     crearPlataforma(game.world.width - 500, i * 100, 90, 32);
+                    portales.add(new SpawnEnemigo(game, game.world.width / 2, i * 100 - 32, 90, 32));
                 }
             }
+
             // portales.add(new SpawnEnemigo(game, nuevoSuelo.body.x + 32, nuevoSuelo.body.y - 32));
             break;
         case "Chino":
-            // Simplemente un campo largo
-            var nuevoSuelo = game.add.tileSprite(0, game.world.height - 32, game.world.width, 32, 'ground');
-            platforms.add(nuevoSuelo);
-            portales.add(new SpawnEnemigo(game, nuevoSuelo.body.x + 32, nuevoSuelo.body.y - 32));
-            portales.add(new SpawnEnemigo(game, game.world.width - 64, nuevoSuelo.body.y - 32));
-            portales.add(new SpawnEnemigo(game, game.world.width / 2, nuevoSuelo.body.y - 32));
-            portales.add(new SpawnEnemigo(game, game.world.width - 400, 128));
-            portales.add(new SpawnEnemigo(game, nuevoSuelo.body.x + 400, 128));
+            // Simplemente campos largos
+            //var nuevoSuelo = game.add.tileSprite(0, game.world.height - 32, game.world.width, 32, 'ground');
+            //platforms.add(nuevoSuelo);
+            crearPlataforma(0, game.world.height, game.world.width, 32);
+            crearPlataforma(150, game.world.height - 100, game.world.width - 300, 32);
+            crearPlataforma(300, game.world.height - 200, game.world.width - 600, 32);
+            portales.add(new SpawnEnemigo(game, 0 + 32, 0 + 32));
+            portales.add(new SpawnEnemigo(game, game.world.width - 64, 0 + 32));
+            portales.add(new SpawnEnemigo(game, game.world.width / 2, 0 + 32));
+            portales.add(new SpawnEnemigo(game, 0 + 32, game.world.height - 32));
+            portales.add(new SpawnEnemigo(game, game.world.width - 64, game.world.height - 32));
+            portales.add(new SpawnEnemigo(game, game.world.width / 2, game.world.height - 32));
 
             break;
     }
