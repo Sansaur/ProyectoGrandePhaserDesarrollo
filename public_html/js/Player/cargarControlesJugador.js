@@ -43,8 +43,7 @@ function controlesJugador(player) {
         movimientoBasico(player);
     }
     // 
-    console.log(INICIANDO);
-    if (!INICIANDO) {
+    if (!INICIANDO || INICIANDO === false) {
         if (player.canGetHit) {
             player.alpha = 0.5;
             player.canGetHit -= 10;

@@ -81,7 +81,7 @@ function loadPlayer() {
     // Nuevas variables para el jugador
     // canGetHit es un TIEMPO en milisegundos, mientras sea superior a 0 se irá disminuyendo en el update del jugador
     // Mientras sea superior a 0 no se le puede golpear al jugador
-    //player.canGetHit = 3000;
+    player.canGetHit = 3000;
 
     // Permite rebotar sobre enemigos
     player.jumpImmunity = 1;
