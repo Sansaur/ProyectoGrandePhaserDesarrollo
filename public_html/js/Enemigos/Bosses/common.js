@@ -24,7 +24,7 @@ function bossSpawn() {
 
     var nuevaMunicion = new Municion(game, player.body.x, player.body.y - 48, "fullAmmoPack", 10, 5);
     // RECORDAR CAMBIAR ESTO
-    var eleccion = game.rnd.integerInRange(4, 4);
+    var eleccion = game.rnd.integerInRange(2, 2);
     SFX_BOSS_INCOMING.play();
     if (!EVENTO_ADDED) {
         SFX_BOSS_INCOMING.onStop.add(function () {

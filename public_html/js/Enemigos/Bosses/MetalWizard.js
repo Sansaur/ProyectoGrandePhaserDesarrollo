@@ -90,7 +90,7 @@ Barrera = function (game, x, y, wizard) {
     // damageDealt es para saber cuanto daño hacen.
     this.damageDealt = wizard.damageDealt;
     // health es para su vida.
-    this.health = 15 + PlayerAccount.dificultad;
+    this.health = 9 + PlayerAccount.dificultad;
     this.isBoss = true;
     this.wizard = wizard;
     this.scale.x = 2;
