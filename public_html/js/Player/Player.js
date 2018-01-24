@@ -44,13 +44,10 @@ function loadPlayer() {
     game.time.events.add(10, function () {
         var SFX_BEAMIN = game.add.audio('beam_in');
         SFX_BEAMIN.play();
-        console.warn("CREANDO EL BEAMIN");
         puedeControlarJugador = false;
         var NEWBEAMIN = new BeamIn(game);
         NEWBEAMIN.animacion.play();
         player.alpha = 0;
-        //console.warn(NEWBEAMIN);
-        //console.warn(NEWBEAMIN.animacion);
         NEWBEAMIN.animacion.onComplete.add(function () {
             INICIANDO = false;
             SFX_INTRO.play();
@@ -58,7 +55,6 @@ function loadPlayer() {
             player.alpha = 1;
             //player.revive();
             puedeControlarJugador = true;
-            console.warn("BEAMIN TERMINA " + INICIANDO);
             // INICIAR MUSICA
             MUSICA.play();
 

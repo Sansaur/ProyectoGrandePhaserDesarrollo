@@ -216,7 +216,6 @@ Ninja.prototype.update = function () {
             if (!this.alive || !this) {
                 return;
             }
-            console.log(distanciaJugador);
             this.eventoShuriken = null;
             if (distanciaJugador > 150 && !distanciaJugador < 90) {
                 if (this.alive && !this.canalizando && this.superShuriken % 5 === 0) {

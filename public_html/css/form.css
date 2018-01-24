@@ -29,6 +29,12 @@ fieldset label input{
     border: 3px solid #306230;
     background-color: #CADC9F;
 }
+fieldset label input:valid{
+    background-color: #CADC9F;
+}
+fieldset label input:invalid{
+    background-color: #aaaaaa;
+}
 form{
     width: 600px;
     height: 350px;

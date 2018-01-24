@@ -3,6 +3,7 @@
 var TECLA_X; // Disparar
 var TECLA_Z; // Esquivar
 var TECLA_C; // Habilidad especial
+var TECLA_P; // Pausar
 var FLECHAS; // Moverse 
 var TECLA_1, TECLA_2, TECLA_3, TECLA_4, TECLA_5, TECLA_6, TECLA_7, TECLA_8, TECLA_9;
 
@@ -23,6 +24,7 @@ function cargarControlesJugador() {
     TECLA_X = game.input.keyboard.addKey(Phaser.Keyboard.X);
     TECLA_Z = game.input.keyboard.addKey(Phaser.Keyboard.SHIFT);
     TECLA_C = game.input.keyboard.addKey(Phaser.Keyboard.C);
+    TECLA_P = game.input.keyboard.addKey(Phaser.Keyboard.P);
     TECLA_1 = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
     TECLA_2 = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
     TECLA_3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
@@ -38,7 +40,13 @@ function cargarControlesJugador() {
 function controlesJugador(player) {
     //  Reset the players velocity (movement)
     player.body.velocity.x = 0;
-    // Tiempo de invencibilidad
+    // Pausa
+    if (TECLA_P.isDown) {
+        if (JUEGO_GANADO) {
+            return;
+        }
+        pausar();
+    }
     if (puedeControlarJugador) {
         movimientoBasico(player);
     }
@@ -296,4 +304,18 @@ function finCohete() {
 
 function disparar() {
     handleDisparar();
+}
+var textolino;
+function pausar() {
+    game.paused = true;
+    textolino = this.game.add.text(game.camera.x, game.camera.y + 200, "Haz click para despausar", {font: "28px pressStart", fill: "#ffffff", stroke: "black", strokeThickness: 2});
+    textolino.fixedToCamera = true;
+    textolino.cameraOffset.setTo(40, 200);
+    game.input.onDown.add(function (evento) {
+        despausar();
+    }, self);
+}
+function despausar() {
+    game.paused = false;
+    textolino.destroy();
 }

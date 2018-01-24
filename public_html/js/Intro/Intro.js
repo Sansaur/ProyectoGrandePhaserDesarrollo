@@ -3,7 +3,7 @@ var canvasWidth = 800;
 var canvasHeight = 600;
 // Esta variable es muy importante pasarla y usarla.
 // "game" es GLOBAL
-var game = new Phaser.Game(canvasWidth, canvasHeight, Phaser.AUTO, 'juego', {preload: preload, create: create, update: update});
+var game = new Phaser.Game(canvasWidth, canvasHeight, Phaser.CANVAS, 'juego', {preload: preload, create: create, update: update});
 var Texto;
 
 var musica;

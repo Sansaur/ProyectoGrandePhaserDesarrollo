@@ -5,7 +5,7 @@ var canvasHeight = 600;
 // Esta variable es muy importante pasarla y usarla.
 // "game" es GLOBAL
 // ANTES ERA Phaser.AUTO
-var game = new Phaser.Game(canvasWidth, canvasHeight, Phaser.AUTO, 'juego', {preload: preload, create: create, update: update, render: render});
+var game = new Phaser.Game(canvasWidth, canvasHeight, Phaser.CANVAS, 'juego', {preload: preload, create: create, update: update, render: render});
 
 // Diferntes tipos de plataformas
 var platforms;
@@ -76,10 +76,10 @@ function loadAssets() {
     // Musica y efectos de sonido
 
     // MUSICA
-    game.load.audio('LaX', 'assets/musica/LaX.ogg');
-    game.load.audio('Factorio', 'assets/musica/Factorio.ogg');
-    game.load.audio('Jungla', 'assets/musica/Jungla.ogg');
-    game.load.audio('Chino', 'assets/musica/Chino.ogg');
+    game.load.audio(PlayerAccount.mapa, 'assets/musica/'+PlayerAccount.mapa+'.ogg');
+    //game.load.audio('Factorio', 'assets/musica/Factorio.ogg');
+    //game.load.audio('Jungla', 'assets/musica/Jungla.ogg');
+    //game.load.audio('Chino', 'assets/musica/Chino.ogg');
 
     game.load.audio('SlimeBoss', 'assets/musica/Slime.ogg');
     game.load.audio('NinjaBoss', 'assets/musica/Ninja.ogg');
@@ -107,7 +107,7 @@ function loadAssets() {
     game.load.audio('mochilacohete', 'assets/sonido/mochilaCohete.ogg');
     game.load.audio('intro', 'assets/sonido/' + PlayerAccount.skin + '_Intro.ogg');
     game.load.audio('threat', 'assets/sonido/' + PlayerAccount.skin + '_Threat.ogg');
-    game.load.audio('slime', 'assets/sonido/slime.ogg');
+    game.load.audio('slime', 'assets/sonido/Slime.ogg');
     game.load.audio('lanzar', 'assets/sonido/Lanzar.ogg');
     game.load.audio('carga', 'assets/sonido/carga.ogg');
     game.load.audio('magia', 'assets/sonido/magia.ogg');
