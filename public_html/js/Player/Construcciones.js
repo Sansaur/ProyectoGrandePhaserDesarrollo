@@ -186,3 +186,48 @@ function dispense(vida, balas, explosivos, energia) {
     }
     actualizarVida();
 }
+var ESCUDO = null;
+Escudo = function (game) {
+    Phaser.Sprite.call(this, game, 0, 0, "escudo");
+    game.physics.enable(this, Phaser.Physics.ARCADE);
+    this.collideWorldBounds = false;
+    this.enableBody = true;
+    this.anchor.setTo(0.5, 0.5);
+    this.body.gravity.y = 0;
+    this.body.bounce.y = 0;// 0.7 + Math.random() * 0.2;
+    this.body.bounce.x = 0;
+    this.body.collideWorldBounds = false;
+    this.body.velocity.x = 0;
+    this.health = 20;
+    this.body.setSize(this.body.width / 2, this.body.height, this.body.width / 4, 0);
+    construcciones.add(this);
+    ultimaHabilidadEspecial += 10000; // Más enfriamiento por el escudo
+    ESCUDO = this;
+};
+Escudo.prototype = Object.create(Phaser.Sprite.prototype);
+Escudo.prototype.constructor = Escudo;
+Escudo.prototype.update = function () {
+    this.body.x = player.body.x + 16 * ultimaDireccion;
+    this.body.y = player.body.y;
+    game.physics.arcade.overlap(this, enemies, function (maquina, enemigo) {
+        // Nah, el escudo no protege contra toques
+        //enemigo.body.x += 64 * ultimaDireccion;
+        //game.add.tween(enemigo).to({x: enemigo.x + 64 * ultimaDireccion}, 100, "Linear", true);
+    }, null, this);
+    game.physics.arcade.overlap(this, platforms, function (construccion, plataforma) {
+
+    }, null, this);
+    game.physics.arcade.overlap(this, player, function (construccion, plataforma) {
+
+    }, null, this);
+    game.physics.arcade.collide(this, enemyBullets, function (construccion, bala) {
+        this.health--;
+        if (!bala.unkillable) {
+            bala.kill();
+        }
+        if (this.health <= 0) {
+            ESCUDO = null;
+            this.kill();
+        }
+    }, null, this);
+};

@@ -239,6 +239,13 @@ function habilidadEspecial() {
             // Se ve en "Construcciones.js"
             superEsquivar(player)
             break;
+        case "Riot":
+            // Se ve en "Construcciones.js"
+            if(ESCUDO){
+                ESCUDO.kill();
+            }
+            ESCUDO = new Escudo(game);
+            break;
 
     }
 }

@@ -14,7 +14,7 @@ function bossSpawn() {
         item.alpha = 0.3;
     }, this);
     enemies.forEach(function (item) {
-        item.dropearMuerte();
+        //item.dropearMuerte();
         if (item.alive) {
             item.kill();
         }
@@ -86,8 +86,8 @@ function bossSpawn() {
                 case 4:
                     NUEVAMUSICA = game.add.audio('GlitchBoss');
                     NUEVAMUSICA.volume = 0.4;
-                    NUEVAMUSICA.loop = true;
                     NUEVAMUSICA.play();
+                    // Recordar hacer este boss con dos partes
                     var nuevoBoss = new Glitch(game, game.world.width / 2, game.world.height / 2, 12);
                     break;
             }

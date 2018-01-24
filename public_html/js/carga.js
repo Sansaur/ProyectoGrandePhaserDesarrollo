@@ -82,6 +82,7 @@ function loadAssets() {
     game.load.audio('SlimeBoss', 'assets/musica/Slime.ogg');
     game.load.audio('NinjaBoss', 'assets/musica/Ninja.ogg');
     game.load.audio('WizardBoss', 'assets/musica/Wizard.ogg');
+    game.load.audio('GlitchBoss', 'assets/musica/Glitch.ogg');
 
     // SFX
     game.load.audio('silenciado', 'assets/sonido/silenciado.wav');
@@ -112,6 +113,7 @@ function loadAssets() {
     game.load.audio('glitch_fall', 'assets/sonido/GLITCH_FALL.ogg');
     game.load.audio('glitch_hit', 'assets/sonido/GLITCH_HIT.ogg');
     game.load.audio('glitch_fire', 'assets/sonido/GLITCH_FIRE.ogg');
+    game.load.audio('glitch_lunge', 'assets/sonido/GLITCH_LUNGE.ogg');
 
     game.load.audio('enemyShotLaser', 'assets/sonido/enemyShotLaser.wav');
     game.load.audio('enemyShot', 'assets/sonido/enemyShot.wav');
@@ -137,6 +139,7 @@ function loadAssets() {
     game.load.spritesheet('torreta', 'assets/playerSprites/Torreta.png', 32, 32);
     game.load.spritesheet('mina', 'assets/playerSprites/Mina_Contusion.png', 32, 32);
     game.load.spritesheet('dispensador', 'assets/playerSprites/Dispensador.png', 32, 32);
+    game.load.spritesheet('escudo', 'assets/img/escudo.png', 32, 32);
 
 
     // Suelos
@@ -303,6 +306,9 @@ function create() {
     SFX_GLITCH_FALL.loop = true;
     SFX_GLITCH_HIT = game.add.audio('glitch_hit');
     SFX_GLITCH_FIRE = game.add.audio('glitch_fire');
+    SFX_GLITCH_LUNGE = game.add.audio('glitch_lunge');
+    SFX_GLITCH_LUNGE.volume = 0.6;
+    SFX_GLITCH_LUNGE.loop = false;
 
 
     // ENEMIGOS

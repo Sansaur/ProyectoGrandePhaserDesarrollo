@@ -133,6 +133,7 @@ Glitch.prototype.update = function () {
     // Animaciones
 
     if (Math.abs(this.body.velocity.x) >= 600 && !this.noAnimacion) {
+
         this.animations.play("garra");
     }
     var distanciaJugador = Phaser.Math.distance(player.body.x, player.body.y, this.body.x, this.body.y);
@@ -148,11 +149,14 @@ Glitch.prototype.update = function () {
     if (this.body.velocity.y >= 700) {
         this.cayendo = true;
         SFX_GLITCH_HIT.stop();
-        if(!SFX_GLITCH_FALL.isPlaying){
+        if (!SFX_GLITCH_FALL.isPlaying) {
             SFX_GLITCH_FALL.play();
         }
         if (!Math.abs(this.body.velocity.x) <= 100) {
             this.body.velocity.x = this.body.velocity.x / 1.1;
+        }
+        if (Math.abs(this.body.velocity.x) <= 100) {
+            this.body.velocity.x = 50;
         }
         this.animations.play("slam");
         game.physics.arcade.overlap(this, platforms, function (soldado, platform) {
@@ -166,8 +170,8 @@ Glitch.prototype.update = function () {
             // Animaciones
             if (soldado.cayendo) {
                 SFX_GLITCH_FALL.stop();
-                if(!SFX_GLITCH_HIT.isPlaying){
-                     SFX_GLITCH_HIT.play();
+                if (!SFX_GLITCH_HIT.isPlaying) {
+                    SFX_GLITCH_HIT.play();
                 }
                 soldado.animations.play("golpe");
                 game.time.events.add(130, function () {
@@ -184,7 +188,7 @@ Glitch.prototype.update = function () {
                 soldado.animations.play("slashes");
                 if (!soldado.piedras) {
                     soldado.piedras = game.time.events.add(400, function () {
-                        if(!soldado.alive){
+                        if (!soldado.alive) {
                             return;
                         }
                         SFX_LANZAR.play();
@@ -221,6 +225,7 @@ Glitch.prototype.update = function () {
                 return;
             }
             if (soldado.abalanza || soldado.body.velocity.y < 0) {
+
                 soldado.animations.play("garra");
                 return;
             }
@@ -234,7 +239,7 @@ Glitch.prototype.update = function () {
                 if (distanciaJugador < 100) {
                     soldado.cargafuego = true;
                     game.time.events.add(500, function () {
-                        if(!soldado.alive){
+                        if (!soldado.alive) {
                             return;
                         }
                         soldado.cargafuego = false;
@@ -263,6 +268,9 @@ Glitch.prototype.update = function () {
                     }
                 }
             } else {
+                if (!SFX_GLITCH_LUNGE.isPlaying) {
+                    SFX_GLITCH_LUNGE.play();
+                }
                 soldado.abalanza = true;
                 if (player.body.x > soldado.body.x) {
                     soldado.body.velocity.x = 800;
