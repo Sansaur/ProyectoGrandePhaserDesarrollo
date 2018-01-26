@@ -19,7 +19,7 @@ BeamIn = function (game) {
     game.physics.enable(this, Phaser.Physics.ARCADE);
     this.collideWorldBounds = false;
     this.enableBody = false;
-    this.animacion = this.animations.add('lanzamiento', [0, 1, 2, 3, 4, 5], 8, false);
+    this.animacion = this.animations.add('lanzamiento', [0, 1, 2, 3, 4, 5], 4, false);
     this.body.gravity.y = 0;
     this.body.velocity.x = 0;
     this.body.bounce.y = 0;// 0.7 + Math.random() * 0.2;
@@ -41,7 +41,9 @@ function loadPlayer() {
     //game.time.events.add(2000, function () {
     //
     //})
-    game.time.events.add(50, function () {
+    game.time.events.add(10, function () {
+        var SFX_BEAMIN = game.add.audio('beam_in');
+        SFX_BEAMIN.play();
         console.warn("CREANDO EL BEAMIN");
         puedeControlarJugador = false;
         var NEWBEAMIN = new BeamIn(game);
@@ -56,7 +58,9 @@ function loadPlayer() {
             player.alpha = 1;
             //player.revive();
             puedeControlarJugador = true;
-                        console.warn("BEAMIN TERMINA "+INICIANDO);
+            console.warn("BEAMIN TERMINA " + INICIANDO);
+            // INICIAR MUSICA
+            MUSICA.play();
 
         });
     })

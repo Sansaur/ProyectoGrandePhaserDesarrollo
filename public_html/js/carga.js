@@ -67,6 +67,7 @@ function loadAssets() {
     // Efectos
     game.load.spritesheet('explosion', 'assets/effects/explosion.png', 128, 128);
     game.load.spritesheet('beam_in', 'assets/playerSprites/Beam_in.png', 32, 32);
+    game.load.image('vict', 'assets/img/vict.png');
 
     // alias, path, x, y dimension
     game.load.spritesheet('player', 'assets/playerSprites/' + PlayerAccount.skin + '.png', 32, 32);
@@ -84,6 +85,8 @@ function loadAssets() {
     game.load.audio('NinjaBoss', 'assets/musica/Ninja.ogg');
     game.load.audio('WizardBoss', 'assets/musica/Wizard.ogg');
     game.load.audio('GlitchBoss', 'assets/musica/Glitch.ogg');
+    
+    game.load.audio('victoria', 'assets/musica/victoria.ogg');
 
     // SFX
     game.load.audio('silenciado', 'assets/sonido/silenciado.wav');
@@ -111,6 +114,7 @@ function loadAssets() {
     game.load.audio('lanzamiento', 'assets/sonido/WIZARD_LANZAMIENTO.ogg');
     game.load.audio('meteorito', 'assets/sonido/meteorito.ogg');
     game.load.audio('magic_trap', 'assets/sonido/magic_trap.ogg');
+    game.load.audio('beam_in', 'assets/sonido/beam_in.ogg');
     game.load.audio('glitch_fall', 'assets/sonido/GLITCH_FALL.ogg');
     game.load.audio('glitch_hit', 'assets/sonido/GLITCH_HIT.ogg');
     game.load.audio('glitch_fire', 'assets/sonido/GLITCH_FIRE.ogg');
@@ -398,8 +402,6 @@ function create() {
     //var BALA = game.add.tileSprite(220, game.world.height - 50, 24, 24, 'bullet');
     //enemyBullets.add(BALA);
 
-    // INICIAR MUSICA
-    MUSICA.play();
 
     game.camera.x = player.x / 2;
     game.camera.y = player.y;

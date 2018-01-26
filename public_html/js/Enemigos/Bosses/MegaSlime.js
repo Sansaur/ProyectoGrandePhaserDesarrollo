@@ -24,7 +24,7 @@ TiroSlime.prototype = Object.create(Phaser.Sprite.prototype);
 TiroSlime.prototype.constructor = TiroSlime;
 TiroSlime.prototype.update = function () {
     if (game.time.now > this.tiempoMuerte - 1500) {
-        game.physics.arcade.moveToObject(this, player, 300);
+        game.physics.arcade.moveToObject(this, player, 190 +PlayerAccount.dificultad * 20);
     }
     if (game.time.now > this.tiempoMuerte) {
         this.kill();
@@ -157,8 +157,10 @@ CorazonSlime.prototype.dropearMuerte = function () {
     }
     CORAZONES_SLIME_BOSS--;
     if (CORAZONES_SLIME_BOSS === 0) {
+        puntos += this.damageDealt*10 + 1000 + PlayerAccount.dificultad*10;
         PARED_1.kill();
         PARED_2.kill();
+        HA_HABIDO_SLIME = 1;
         NUEVAMUSICA.fadeOut(3000);
         game.time.events.add(5000, function () {
             limpiezaDeBoss();

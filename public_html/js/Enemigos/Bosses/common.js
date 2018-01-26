@@ -7,6 +7,7 @@ var EVENTO_ADDED = false;
 // Ay dios mio
 var PARED_1;
 var PARED_2;
+var HA_HABIDO_SLIME = 0;
 function bossSpawn() {
     MUSICA.stop();
     portales.forEach(function (item) {
@@ -24,7 +25,9 @@ function bossSpawn() {
 
     var nuevaMunicion = new Municion(game, player.body.x, player.body.y - 48, "fullAmmoPack", 10, 5);
     // RECORDAR CAMBIAR ESTO
-    var eleccion = game.rnd.integerInRange(1, 4);
+    // Me cago en la slime, la verdad
+    // La slime es siempre el jefe del final, al matarlo, "HA_HABIDO_SLIME" valdrá 1 y así no podrá aparecer dos veces
+    var eleccion = game.rnd.integerInRange(1, 4 - HA_HABIDO_SLIME);
     SFX_BOSS_INCOMING.play();
     if (!EVENTO_ADDED) {
         SFX_BOSS_INCOMING.onStop.add(function () {
@@ -59,6 +62,13 @@ function bossSpawn() {
 
                     break;
                 case 3:
+                    NUEVAMUSICA = game.add.audio('GlitchBoss');
+                    NUEVAMUSICA.volume = 0.4;
+                    NUEVAMUSICA.play();
+                    // Recordar hacer este boss con dos partes
+                    var nuevoBoss = new Glitch(game, game.world.width / 2, game.world.height / 2, 12);
+                    break;
+                case 4:
                     NUEVAMUSICA = game.add.audio('SlimeBoss');
                     NUEVAMUSICA.volume = 0.4;
                     NUEVAMUSICA.loop = true;
@@ -83,13 +93,6 @@ function bossSpawn() {
                     PARED_1 = crearPared(0, game.world.height - 700, 64, game.world.height, 0, "slimeboss");
                     PARED_2 = crearPared(game.world.width - 64, game.world.height - 700, 64, game.world.height, 0, "slimeboss");
                     break;
-                case 4:
-                    NUEVAMUSICA = game.add.audio('GlitchBoss');
-                    NUEVAMUSICA.volume = 0.4;
-                    NUEVAMUSICA.play();
-                    // Recordar hacer este boss con dos partes
-                    var nuevoBoss = new Glitch(game, game.world.width / 2, game.world.height / 2, 12);
-                    break;
             }
         }, this);
         EVENTO_ADDED = true;
@@ -101,10 +104,12 @@ function limpiezaDeBoss() {
     enemyBullets.forEachAlive(function (item) {
         item.kill();
     })
-    portales.forEach(function (item) {
-        item.desactivado = false;
-        item.alpha = 1;
-    }, this);
+    if (NUMERO_BOSSES_ASESINADOS !== PlayerAccount.maxBosses) {
+        portales.forEach(function (item) {
+            item.desactivado = false;
+            item.alpha = 1;
+        }, this);
+    }
     enemies.forEachAlive(function (item) {
         var explosion = explosiones.getFirstExists(false);
         if (explosion) {
@@ -125,6 +130,12 @@ function limpiezaDeBoss() {
     reiniciarEventoCronometro();
     MUSICA.volume = 0.4;
     MUSICA.play();
+    // 
+    var v = game.add.sprite(300, 300, 'vict');
+    v.fixedToCamera = true;
+    v.cameraOffset.setTo(40 + 40 * NUMERO_BOSSES_ASESINADOS, 80);
+
+    //
     if (NUMERO_BOSSES_ASESINADOS === PlayerAccount.maxBosses) {
         victoria();
     }
@@ -140,36 +151,46 @@ function reiniciarEventoCronometro() {
         }
     });
 }
+function pararEventoCronometro() {
+    PlayerAccount.tiempoParaElBoss = TIEMPO_BOSS_INICIAL;
+    game.time.events.remove(EVENTO_CRONOMETRO);
+}
 
 function victoria() {
-    game.paused = true;
-    imagenFondo.tint = 0x444444;
-    explosiones.forEach(function (item) {
-        item.tint = 0x444444;
-    });
-    platforms.forEach(function (item) {
-        item.tint = 0x444444;
-    });
-    enemies.forEach(function (item) {
-        item.tint = 0x444444;
-    });
-    enemyBullets.forEach(function (item) {
-        item.tint = 0x444444;
-    });
-    portales.forEach(function (item) {
-        item.tint = 0x444444;
-    });
-    ammoBoxes.forEach(function (item) {
-        item.tint = 0x444444;
-    });
-    suaves.forEach(function (item) {
-        item.tint = 0x444444;
-    });
+    /*game.paused = true;
+     imagenFondo.tint = 0x444444;
+     explosiones.forEach(function (item) {
+     item.tint = 0x444444;
+     });
+     platforms.forEach(function (item) {
+     item.tint = 0x444444;
+     });
+     enemies.forEach(function (item) {
+     item.tint = 0x444444;
+     });
+     enemyBullets.forEach(function (item) {
+     item.tint = 0x444444;
+     });
+     portales.forEach(function (item) {
+     item.tint = 0x444444;
+     });
+     ammoBoxes.forEach(function (item) {
+     item.tint = 0x444444;
+     });
+     suaves.forEach(function (item) {
+     item.tint = 0x444444;
+     });
+     */
     /*
      * Guardamos antes del final, por si aca
      */
+    MUSICA.stop();
+    MUSICA.volume = 0.4;
+    MUSICA = game.add.audio("victoria");
+    MUSICA.play();
+    pararEventoCronometro();
     guardarFinal();
-    var textolino = this.game.add.text(game.camera.x, game.camera.y + 200, "¡¡TOTAL VICTORY!!", {font: "32px pressStart", fill: "#ffffff", stroke: "black", strokeThickness: 2});
+    var textolino = this.game.add.text(game.camera.x + 100, game.camera.y + 200, "¡¡TOTAL VICTORY!!", {font: "32px pressStart", fill: "#ffffff", stroke: "black", strokeThickness: 2});
     textolino.fixedToCamera = true;
     textolino.cameraOffset.setTo(20, 200);
     var textosote = this.game.add.text(game.camera.x + 150, game.camera.y + 300, "Haz click para salir", {font: "18px pressStart", fill: "#ffffff", stroke: "black", strokeThickness: 2});

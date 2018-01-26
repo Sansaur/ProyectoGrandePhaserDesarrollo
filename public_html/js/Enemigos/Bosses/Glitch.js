@@ -103,6 +103,7 @@ Glitch.prototype.onHit = function () {
 ;
 Glitch.prototype.dropearMuerte = function () {
     NUEVAMUSICA.fadeOut(3000);
+        puntos += this.damageDealt*10 + 1000 + PlayerAccount.dificultad*10;
     game.time.events.add(4000, function () {
         limpiezaDeBoss();
     }, this);
